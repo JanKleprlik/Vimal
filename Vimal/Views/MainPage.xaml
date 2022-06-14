@@ -7,6 +7,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:models="using:Vimal.Models"
     xmlns:viewmodels="using:Vimal.ViewModels"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:system="using:System"
@@ -17,21 +18,227 @@
         AllowDropTabs="True"
         TabItemsSource="{x:Bind ViewModel.Tabs}"
         AddTabButtonCommand="{x:Bind ViewModel.AddTabCommand}"
-        
-        winui:TabItemTemplate="{StaticResource ScriptTemplate}"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        CloseButtonOverlayMode="OnPointerOver"
         >
+        <winui:TabView.TabItemTemplate>
+            <DataTemplate x:DataType="models:TabViewItemData">
+                <winui:TabViewItem
+                    Header="{x:Bind Header}"
+                    AutomationProperties.Name="{x:Bind Header}"
+                    Content="{x:Bind Content}"
+                    >
+                    <winui:TabViewItem.IconSource>
+                        <winui:SymbolIconSource
+                            Symbol="List"
+                         />
+                    </winui:TabViewItem.IconSource>
+                    <!--<winui:TabViewItem.ContentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" MinHeight="0"/>
+                                </Grid.RowDefinitions>
+
+                                -->
+                    <!-- INPUT -->
+                    <!--
+
+                                <RelativePanel Margin="0,0,0,20" HorizontalAlignment="Stretch">
+                                    <RelativePanel.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Margin" Value="0,0,8,0" />
+                                        </Style>
+                                    </RelativePanel.Resources>
+                                    <Button x:Name="openFileButton"  AutomationProperties.Name="Open file" ToolTipService.ToolTip="Open file">
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8E5;"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button  AutomationProperties.Name="Save file" ToolTipService.ToolTip="Save file"
+            RelativePanel.RightOf="openFileButton">
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button AutomationProperties.Name="Bold" ToolTipService.ToolTip="Bold" 
+            RelativePanel.LeftOf="italicButton" >
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8DD;"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button x:Name="italicButton" AutomationProperties.Name="Italic" ToolTipService.ToolTip="Italic"
+            RelativePanel.LeftOf="fontColorButton">
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8DB;"/>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <winui:DropDownButton x:Name="fontColorButton" AutomationProperties.Name="Font color"
+                                BorderThickness="0" ToolTipService.ToolTip="Font color"
+                                Background="Transparent"
+                                RelativePanel.AlignRightWithPanel="True">
+                                        <SymbolIcon Symbol="FontColor"/>
+                                        <winui:DropDownButton.Flyout>
+                                            <Flyout Placement="Bottom">
+                                                <VariableSizedWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3">
+                                                    <VariableSizedWrapGrid.Resources>
+                                                        <Style TargetType="Rectangle">
+                                                            <Setter Property="Width" Value="32"/>
+                                                            <Setter Property="Height" Value="32"/>
+                                                        </Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Padding" Value="0"/>
+                                                            <Setter Property="MinWidth" Value="0"/>
+                                                            <Setter Property="MinHeight" Value="0"/>
+                                                            <Setter Property="Margin" Value="6"/>
+                                                        </Style>
+                                                    </VariableSizedWrapGrid.Resources>
+                                                    <Button  AutomationProperties.Name="Red">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Red"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Orange">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Orange"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Yellow">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Yellow"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Green">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Green"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Blue">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Blue"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Indigo">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Indigo"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Violet">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Violet"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button  AutomationProperties.Name="Gray">
+                                                        <Button.Content>
+                                                            <Rectangle Fill="Gray"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                </VariableSizedWrapGrid>
+                                            </Flyout>
+                                        </winui:DropDownButton.Flyout>
+                                    </winui:DropDownButton>
+
+                                    <RichEditBox x:Name="editor" Height="200" AutomationProperties.Name="Custom editor"
+                    RelativePanel.Below="openFileButton"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                                                 />
+                                    <StackPanel Orientation="Horizontal"
+                RelativePanel.Below="editor"
+                RelativePanel.AlignLeftWith="editor"
+                Margin="0,10,0,0">
+                                        <TextBlock x:Name="findBoxLabel" Text="Find:" Height="20"/>
+                                        <TextBox x:Name="findBox" Width="150" PlaceholderText="Enter search text" Margin="10,0,0,0"
+/>
+                                    </StackPanel>
+                                </RelativePanel>
+
+                                -->
+                    <!-- OUTPUT -->
+                    <!--
+                                <Grid
+                                    Padding="4,12,4,0"
+                                    Grid.Row="1"
+                                    >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Button
+                                HorizontalAlignment="Left"
+                                >
+                                        <SymbolIcon Symbol="Play"/>
+                                    </Button>
+                                    <Button
+                                HorizontalAlignment="Right"
+                                >
+                                        <SymbolIcon Symbol="Setting"/>
+                                    </Button>
+
+                                    <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="HelloTHere"
+                                />
+                                </Grid>
+
+
+                                <controls:GridSplitter
+                                    Grid.Row="1"
+                                    VerticalAlignment="Top"
+                                    ResizeBehavior="PreviousAndCurrent"
+                                    >   
+                                    <controls:GridSplitter.RenderTransform>
+                                        <TranslateTransform Y="-8" />
+                                    </controls:GridSplitter.RenderTransform>
+                                    <controls:GridSplitter.Element>
+                                        <TextBlock HorizontalAlignment="Center"
+                                    IsHitTestVisible="True"
+                                    VerticalAlignment="Center"
+                                    Text="&#xE76F;"
+                                    Foreground="White"
+                                    FontFamily="Segoe MDL2 Assets"/>
+                                    </controls:GridSplitter.Element>
+                                </controls:GridSplitter>
+                            </Grid>
+                        </DataTemplate>
+                    </winui:TabViewItem.ContentTemplate>
+-->
+                </winui:TabViewItem>
+            </DataTemplate>
+        </winui:TabView.TabItemTemplate>
+
+        
+        <winui:TabView.KeyboardAccelerators>
+            <KeyboardAccelerator Key="T" Modifiers="Control" Invoked="NewTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="W" Modifiers="Control" Invoked="CloseSelectedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number1" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number2" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number3" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number4" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number5" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number6" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number7" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number8" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            <KeyboardAccelerator Key="Number9" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+        </winui:TabView.KeyboardAccelerators>
+
         <i:Interaction.Behaviors>
             <ic:EventTriggerBehavior EventName="TabCloseRequested">
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.CloseTabCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
         <winui:TabView.TabStripHeader>
-            <Grid x:Name="ShellTitlebarInset"/>
+            <Grid x:Name="ShellTitlebarInset" Background="Transparent"/>
         </winui:TabView.TabStripHeader>
         <winui:TabView.TabStripFooter>
-            <Grid x:Name="CustomDragRegion"/>
+            <Grid x:Name="CustomDragRegion" Background="Transparent"/>
         </winui:TabView.TabStripFooter>
         <!--<winui:TabView.TabStripHeader>
         <StackPanel
@@ -67,5 +274,4 @@
         </DataTemplate>
     </winui:TabView.TabItemTemplate>-->
     </winui:TabView>
-
 </Page>
