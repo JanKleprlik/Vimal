@@ -1,0 +1,49 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:models="using:Vimal.Models"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:system="using:System"
+    >
+    <DataTemplate x:Key="ScriptTemplate">
+        <winui:TabViewItem
+            Header="{Binding Header}"
+            AutomationProperties.Name="{Binding Header}"
+            Content="{Binding Content}"
+            Background="Azure"
+            >
+            <winui:TabViewItem.ContentTemplate>
+                <DataTemplate>
+                    <Grid
+                        Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                        >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button
+                            HorizontalAlignment="Left"
+                            >
+                            <SymbolIcon Symbol="Play"/>
+                        </Button>
+                        <Button
+                            HorizontalAlignment="Right"
+                            >
+                            <SymbolIcon Symbol="Setting"/>
+                        </Button>
+                        <TextBlock
+                            Grid.Row="1"
+                            Text="{Binding}"
+                            />
+                        <!--<RichEditBox
+                            BorderBrush="AntiqueWhite"
+                            BorderThickness="0"
+                            Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}"
+                            />-->
+                    </Grid>
+                </DataTemplate>
+            </winui:TabViewItem.ContentTemplate>
+        </winui:TabViewItem>
+    </DataTemplate>
+</ResourceDictionary>
