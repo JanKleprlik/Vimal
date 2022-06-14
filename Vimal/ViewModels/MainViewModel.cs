@@ -33,20 +33,21 @@ namespace Vimal.ViewModels
             new TabViewItemData()
             {
                 Index = 1,
-                Header = "Item 1",
-                //Content = "This is the content for Item 1."
+                Header = "Settigns",
+                IconSource = "Setting",
+                Content = new SettingsPage()
             },
             new TabViewItemData()
             {
                 Index = 2,
-                Header = "Item 2",
-                //Content = "This is the content for Item 2."
+                Header = "Kotlin",
+                Content = new ScriptPage()
             },
             new TabViewItemData()
             {
                 Index = 3,
-                Header = "Item 3",
-                //Content = "This is the content for Item 3."
+                Header = "Swift",
+                Content = new ScriptPage()
             }
         };
 

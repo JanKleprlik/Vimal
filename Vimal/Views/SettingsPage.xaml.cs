@@ -1,8 +1,14 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Drawing;
 using Vimal.ViewModels;
-
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
+using Windows.UI.Text;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Vimal.Views
@@ -21,5 +27,6 @@ namespace Vimal.Views
         {
             await ViewModel.InitializeAsync();
         }
+
     }
 }

@@ -6,10 +6,11 @@ namespace Vimal.Models
     {
         public int Index { get; set; }
 
-        public string IconSource { get; set; } = "File";
+        //TODO: add icons 
+        public string IconSource { get; set; } = "List";
         
         public string Header { get; set; }
 
-        public object Content { get; set; } = new SettingsPage();
+        public object Content { get; set; }
     }
 }
