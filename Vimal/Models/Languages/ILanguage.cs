@@ -8,6 +8,9 @@ namespace Vimal.Models.Languages
 {
     internal interface ILanguage
     {
+        /// <summary>
+        /// IT DEPENS ON THE ORDER!
+        /// </summary>
         IEnumerable<Keyword> Keywords { get; }
     }
 }

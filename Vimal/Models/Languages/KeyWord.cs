@@ -10,6 +10,7 @@ namespace Vimal.Models.Languages
     internal class Keyword
     {
         public string Word;
-        public Color Color = Colors.Purple;
+        public Color Color = Colors.MediumPurple;
+        public bool CanNeighboutLetters = false;
     }
 }

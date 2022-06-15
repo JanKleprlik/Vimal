@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,10 @@ namespace Vimal.Services
         public static void Highlight(string text, TextBlock TB, ILanguage language)
         {
             var indexes = GetKeywordIndexes(text, language.Keywords);
+            
+            indexes = indexes.Distinct(new CodePartEqualityComparer()).ToList();
             indexes.Sort((x, y) => x.StartIndex.CompareTo(y.StartIndex));
+
             int lastIndex = 0;
             foreach (var codePart in indexes)
             {
@@ -46,15 +50,27 @@ namespace Vimal.Services
                 int index = line.IndexOf(keyword.Word);
                 while (index != -1)
                 {
-                    //KeyWord itself
-                    indexes.Add(new CodePart
+                        //can neighbout letters
+                    if (keyword.CanNeighboutLetters ||
+                        //check front
+                        ((index == 0 || //is at the start
+                        ('A' > line[index - 1] || 'z' < line[index - 1])) //is not part of a word
+                        &&
+                        //check back
+                        (index + keyword.Word.Length == line.Length || //is at the end
+                        ('A' > line[index + keyword.Word.Length] || 'z' < line[index + keyword.Word.Length])) //is not par of a word
+                       ))
                     {
-                        StartIndex = index,
-                        Length = keyword.Word.Length,
-                        Text = line.Substring(index, keyword.Word.Length),
-                        KeyWord = keyword,
-                        IsKeyword = true
-                    });
+                        //KeyWord itself
+                        indexes.Add(new CodePart
+                        {
+                            StartIndex = index,
+                            Length = keyword.Word.Length,
+                            Text = line.Substring(index, keyword.Word.Length),
+                            KeyWord = keyword,
+                            IsKeyword = true
+                        });
+                    }
 
                     //advance the search
                     index = line.IndexOf(keyword.Word, index + keyword.Word.Length);
@@ -65,12 +81,35 @@ namespace Vimal.Services
 
     }
 
-    internal class CodePart
+    internal class CodePart : IEqualityComparer<CodePart>
     {
         public bool IsKeyword { get; set; }
         public string Text { get; set; }
         public int StartIndex { get; set; }
         public int Length { get; set; }
         public Keyword KeyWord { get; set; }
+
+        public bool Equals(CodePart x, CodePart y)
+        {
+            return (x as CodePart).StartIndex == (y as CodePart).StartIndex;
+        }
+
+        public int GetHashCode(CodePart obj)
+        {
+            return obj.StartIndex.GetHashCode();
+        }
+    }
+
+    internal class CodePartEqualityComparer : IEqualityComparer<CodePart>
+    {
+        public bool Equals(CodePart x, CodePart y)
+        {
+            return (x as CodePart).StartIndex == (y as CodePart).StartIndex;
+        }
+
+        public int GetHashCode(CodePart obj)
+        {
+            return obj.StartIndex.GetHashCode();
+        }
     }
 }
