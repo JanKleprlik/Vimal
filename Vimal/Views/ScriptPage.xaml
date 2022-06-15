@@ -85,7 +85,6 @@
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignBottomWithPanel="True"
                     TextWrapping="Wrap"
-                    Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
                     />
                 
             </ScrollViewer>

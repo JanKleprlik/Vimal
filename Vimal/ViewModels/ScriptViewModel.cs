@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vimal.Models.Languages;
+using Vimal.Services;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -78,7 +80,13 @@ namespace Vimal.ViewModels
         public void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is TextBox)
+            {
                 Script = (sender as TextBox).Text;
+                scriptTextBlock.Inlines.Clear();
+                SyntaxHighlightingService.Highlight(Script, scriptTextBlock, new Kotlin());
+            }
+
+            
         }
 
 

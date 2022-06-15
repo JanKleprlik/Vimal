@@ -65,21 +65,8 @@ namespace Vimal.Views
                 () =>
                 {
                     SyntaxHighlightingService.Highlight(data, outputTextBlock, new OutputLanguage());
-
-                    //if (data.ToLower().Contains("error"))
-                    //{
-                    //    outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new SolidColorBrush(Windows.UI.Colors.Red) });
-                    //}
-                    //else if (data.ToLower().Contains("warning"))
-                    //{
-                    //    outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new SolidColorBrush(Windows.UI.Colors.Yellow) });
-                    //}
-                    //else
-                    //{
-                    //    outputTextBlock.Inlines.Add(new Run() { Text = data });
-                    //}
-
                     outputTextBlock.Inlines.Add(new LineBreak());
+                    
                 }).AsTask();
         }
 
