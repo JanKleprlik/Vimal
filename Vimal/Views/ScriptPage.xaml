@@ -6,10 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mlab="using:Menulab"
     mc:Ignorable="d"
+    
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid
+        x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" MinHeight="0"/>
@@ -63,21 +66,59 @@
             </Button>
 
 
-            <TextBox
-                x:Name="editor"
-                PlaceholderText="Enter your script ..."
-                PlaceholderForeground="DimGray"
-                AutomationProperties.Name="Custom editor"
+            <ScrollViewer
+                x:Name="scrollVieverScriptBlock"
                 RelativePanel.Below="openFileButton"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 RelativePanel.AlignBottomWithPanel="True"
-                AcceptsReturn="True"
-                IsSpellCheckEnabled="False"
-                TextChanged="Editor_TextChanged"
-                GotFocus="Editor_GotFocus"
-                Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
-                />
+                ViewChanged="SynchronizedScrollerOnViewChanged"
+                >
+                <TextBlock
+                    x:Name="scriptEditor"
+                    FontFamily="Roboto"
+                    CharacterSpacing="0"
+                    FontSize="12"
+                    Padding="11,6,6,7"
+                    AutomationProperties.Name="Custom editor"
+                    RelativePanel.Below="openFileButton"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    TextWrapping="Wrap"
+                    Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
+                    />
+                
+            </ScrollViewer>
+            <ScrollViewer
+                x:Name="scrollVieverScriptBox"
+                RelativePanel.Below="openFileButton"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.AlignBottomWithPanel="True"
+                ViewChanged="SynchronizedScrollerOnViewChanged"
+                >
+                <TextBox
+                    x:Name="editor"
+                    FontFamily="Roboto"
+                    CharacterSpacing="0"
+                    FontSize="12"
+                    Style="{StaticResource SyntaxHighlightedTextBox}"
+                    PlaceholderText="Enter your script ..."
+                    PlaceholderForeground="DimGray"
+                    AutomationProperties.Name="Custom editor"
+                    RelativePanel.Below="openFileButton"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    Foreground="#000000FF"
+                    TextWrapping="Wrap"
+                    AcceptsReturn="True"
+                    IsSpellCheckEnabled="False"
+                    TextChanged="{x:Bind ViewModel.OnTextChanged}"
+                    Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
+                    />
+            </ScrollViewer>
         </RelativePanel>
 
         <ScrollViewer

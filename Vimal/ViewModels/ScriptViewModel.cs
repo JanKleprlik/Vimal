@@ -20,10 +20,13 @@ namespace Vimal.ViewModels
     public class ScriptViewModel : ObservableObject
     {
         private TextBlock outputTextBlock;
-        
-        public ScriptViewModel(TextBlock outputTextBlock)
+        private TextBlock scriptTextBlock;
+
+        public ScriptViewModel(TextBlock outputTextBlock, TextBlock scriptTextBlock)
         {
+            this.scriptTextBlock = scriptTextBlock;
             this.outputTextBlock = outputTextBlock;
+
 
             App.AppServiceConnected += AppServiceConnected;
             App.AppServiceDisconnected += AppServiceDisconnected;
@@ -75,6 +78,17 @@ namespace Vimal.ViewModels
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");
             }
         }
+
+        public void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            Debug.WriteLine("Changed");
+            if (sender is TextBox){
+                Script = (sender as TextBox).Text;
+            }
+
+        }
+
+
 
         /// <summary>
         /// Handle calculation request from desktop process

@@ -29,12 +29,15 @@ namespace Vimal.Views
     public sealed partial class ScriptPage : Page
     {
         public ScriptViewModel ViewModel { get; }
-
+        private const int ScrollLoopbackTimeout = 500;
+        private object _lastScrollingElement;
+        private int _lastScrollChange = Environment.TickCount;
 
         public ScriptPage()
         {
+
             this.InitializeComponent();
-            ViewModel = new ScriptViewModel(FindName("outputTextBlock") as TextBlock);
+            ViewModel = new ScriptViewModel(FindName("outputTextBlock") as TextBlock, FindName("scriptEditor") as TextBlock);
         }
 
 
@@ -158,9 +161,27 @@ namespace Vimal.Views
 
         #endregion
 
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+        private void SynchronizedScrollerOnViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
+            if (_lastScrollingElement != sender && Environment.TickCount - _lastScrollChange < ScrollLoopbackTimeout) return;
 
+            _lastScrollingElement = sender;
+            _lastScrollChange = Environment.TickCount;
+
+            ScrollViewer sourceScrollViewer;
+            ScrollViewer targetScrollViewer;
+            if (sender == scrollVieverScriptBlock)
+            {
+                sourceScrollViewer = scrollVieverScriptBlock;
+                targetScrollViewer = scrollVieverScriptBox;
+            }
+            else
+            {
+                sourceScrollViewer = scrollVieverScriptBox;
+                targetScrollViewer = scrollVieverScriptBlock;
+            }
+
+            targetScrollViewer.ChangeView(null, sourceScrollViewer.VerticalOffset, null);
         }
     }
 }

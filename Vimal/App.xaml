@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/Styles/_Thickness.xaml" />
 
                 <ResourceDictionary Source="/Styles/Templates/_Templates.xaml"/>
+                <ResourceDictionary Source="/Styles/Controls/_Controls.xaml"/>
 
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
                 <ResourceDictionary Source="/Styles/Page.xaml"/>
