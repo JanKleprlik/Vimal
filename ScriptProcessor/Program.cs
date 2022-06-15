@@ -4,7 +4,6 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 
-Console.WriteLine("Hello, World!");
 
 #region connection
 
@@ -37,32 +36,24 @@ if (status != AppServiceConnectionStatus.Success)
 #endregion
 
 
-#region parameters
 var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+var scriptPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\script.kts";
 
 string v = localSettings.Values["compilerPath"] as string ?? "";
 string v2 = localSettings.Values["scriptPath"] as string ?? "";
-string v3 = localSettings.Values["scriptData"] as string ?? "";
+string scriptData = localSettings.Values["scriptData"] as string ?? "";
 
-
-Console.WriteLine(v);
-Console.WriteLine(v2);
-
-// writ all args to console
-foreach (var arg in args)
-{
-    Console.WriteLine(arg);
-}
-
-#endregion
+//write the script into a file
+await File.WriteAllTextAsync(scriptPath, scriptData);
 
 
 Process proc = new Process
 {
     StartInfo = new ProcessStartInfo
     {
-        FileName = @"kotlinc.bat",
-        Arguments = @"-script C:\Users\klepr\source\repos\JB\Kotlin\HelloWorld.kts",
+        FileName = @"kotlinc",
+        Arguments = @"-script " + scriptPath,
         WorkingDirectory = @"C:\Program Files\Kotlin\kotlinc\bin",
         UseShellExecute = false,
         RedirectStandardOutput = true,
