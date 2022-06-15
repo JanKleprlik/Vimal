@@ -13,7 +13,7 @@ namespace Vimal.Models.Languages
             new Keyword[]
             {
                         new Keyword { Word = "error", Color = Colors.Red },
-                        new Keyword { Word = "Kotlin", Color = Colors.RoyalBlue },
+                        new Keyword { Word = "Kotlin", Color = Colors.MediumPurple },
             };
     }
 }

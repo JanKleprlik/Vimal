@@ -17,6 +17,7 @@ namespace Vimal.Services
         public static void Highlight(string text, TextBlock TB, ILanguage language)
         {
             var indexes = GetKeywordIndexes(text, language.Keywords);
+            indexes.Sort((x, y) => x.StartIndex.CompareTo(y.StartIndex));
             int lastIndex = 0;
             foreach (var codePart in indexes)
             {
@@ -42,19 +43,9 @@ namespace Vimal.Services
             List<CodePart> indexes = new List<CodePart>();
             foreach (var keyword in keywords)
             {
-                int prevIdx = 0;
                 int index = line.IndexOf(keyword.Word);
                 while (index != -1)
                 {
-                    //code before keyword
-                    //indexes.Add(new CodePart{
-                    //    StartIndex = prevIdx,
-                    //    Length = index - prevIdx,
-                    //    Text = line.Substring(prevIdx, index-prevIdx),
-                    //    KeyWord = null,
-                    //    IsKeyword = false
-                    //});
-
                     //KeyWord itself
                     indexes.Add(new CodePart
                     {
@@ -66,18 +57,8 @@ namespace Vimal.Services
                     });
 
                     //advance the search
-                    prevIdx = index;
                     index = line.IndexOf(keyword.Word, index + keyword.Word.Length);
                 }
-                //add the rest
-                //indexes.Add(new CodePart
-                //{
-                //    StartIndex = prevIdx,
-                //    Length = line.Length - prevIdx,
-                //    Text = line.Substring(prevIdx, line.Length - prevIdx),
-                //    KeyWord = null,
-                //    IsKeyword = false
-                //});
             }
             return indexes;
         }
