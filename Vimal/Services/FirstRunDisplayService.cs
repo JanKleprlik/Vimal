@@ -22,9 +22,9 @@ namespace Vimal.Services
                     if (SystemInformation.Instance.IsFirstRun && !shown)
                     {
                         shown = true;
-                        var dialog = new FirstRunDialog();
-                        await dialog.ShowAsync();
                     }
+                    var dialog = new FirstRunDialog();
+                    await dialog.ShowAsync();
                 });
         }
     }

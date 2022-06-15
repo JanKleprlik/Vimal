@@ -80,7 +80,7 @@ while (!proc.StandardOutput.EndOfStream)
     ValueSet request = new ValueSet();
     request.Add("LINE", line);
     
-    await connection.SendMessageAsync(request);
+    connection.SendMessageAsync(request);
 
     // Do something with line
     Console.WriteLine(line);

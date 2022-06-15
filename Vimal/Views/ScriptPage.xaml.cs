@@ -20,6 +20,9 @@ using Windows.Storage.Streams;
 using Vimal.Services;
 using System.Diagnostics;
 using Vimal.ViewModels;
+using Windows.UI.Xaml.Documents;
+using Windows.ApplicationModel.AppService;
+using Windows.UI.Core;
 
 
 namespace Vimal.Views
@@ -29,6 +32,7 @@ namespace Vimal.Views
     /// </summary>
     public sealed partial class ScriptPage : Page
     {
+        private static bool wasSet = false;
         public ScriptViewModel ViewModel { get; }
         private const int ScrollLoopbackTimeout = 500;
         private object _lastScrollingElement;
@@ -39,6 +43,72 @@ namespace Vimal.Views
 
             this.InitializeComponent();
             ViewModel = new ScriptViewModel(FindName("outputTextBlock") as TextBlock, FindName("scriptEditor") as TextBlock);
+
+            //string isListenerSet = ApplicationData.Current.LocalSettings.Values["IsListenerSet"] as string;
+            if (!wasSet)
+            {
+                //ApplicationData.Current.LocalSettings.Values["IsListenerSet"] = "SET";
+                wasSet = true;
+                App.AppServiceDisconnected += AppServiceDisconnected;
+                App.AppServiceConnected += AppServiceConnected;
+
+            }
+        }
+
+        /// <summary>
+        /// Handle calculation request from desktop process
+        /// (dummy scenario to show that connection is bi-directional)
+        /// </summary>
+        private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            string data = (string)args.Request.Message["LINE"];
+
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    if (data.ToLower().Contains("error"))
+                    {
+                        outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new SolidColorBrush(Windows.UI.Colors.Red) });
+                    }
+                    else if (data.ToLower().Contains("warning"))
+                    {
+                        outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new SolidColorBrush(Windows.UI.Colors.Yellow) });
+                    }
+                    else
+                    {
+                        outputTextBlock.Inlines.Add(new Run() { Text = data });
+                    }
+
+                    outputTextBlock.Inlines.Add(new LineBreak());
+                }).AsTask();
+        }
+
+        /// <summary>
+        /// When the desktop process is connected, get ready to send/receive requests
+        /// </summary>
+        private void AppServiceConnected(object sender, AppServiceTriggerDetails e)
+        {
+            App.Connection.RequestReceived += AppServiceConnection_RequestReceived;
+            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    // enable UI to access  the connection
+            //    btnRegKey.IsEnabled = true;
+            //});
+        }
+
+        /// <summary>
+        /// When the desktop process is disconnected, reconnect if needed
+        /// </summary> 
+        private void AppServiceDisconnected(object sender, EventArgs e)
+        {
+            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    // disable UI to access the connection
+            //    btnRegKey.IsEnabled = false;
+
+            //    // ask user if they want to reconnect
+            //    Reconnect();
+            //});
         }
 
 
@@ -107,9 +177,10 @@ namespace Vimal.Views
             }
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(typeof(SettingsPage), ViewModel);
+            await FirstRunDisplayService.ShowIfAppropriateAsync();
+            //NavigationService.Navigate(typeof(SettingsPage), ViewModel);
         }
 
         private void FindBoxHighlightMatches()

@@ -26,10 +26,6 @@ namespace Vimal.ViewModels
         {
             this.scriptTextBlock = scriptTextBlock;
             this.outputTextBlock = outputTextBlock;
-
-
-            App.AppServiceConnected += AppServiceConnected;
-            App.AppServiceDisconnected += AppServiceDisconnected;
         }
         
         #region properties
@@ -63,9 +59,9 @@ namespace Vimal.ViewModels
 
         private async void RunScript()
         {
-            outputTextBlock.Inlines.Clear();
-            outputTextBlock.Inlines.Add(new Run { Text = " <<< Starting process ... >>>", Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.LightGreen) });
-            outputTextBlock.Inlines.Add(new LineBreak());
+            //outputTextBlock.Inlines.Clear();
+            //outputTextBlock.Inlines.Add(new Run { Text = " <<< Starting process ... >>>", Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.LightGreen) });
+            //outputTextBlock.Inlines.Add(new LineBreak());
 
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0))
             {
@@ -85,66 +81,10 @@ namespace Vimal.ViewModels
             if (sender is TextBox){
                 Script = (sender as TextBox).Text;
             }
-
         }
 
 
 
-        /// <summary>
-        /// Handle calculation request from desktop process
-        /// (dummy scenario to show that connection is bi-directional)
-        /// </summary>
-        private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            string data = (string)args.Request.Message["LINE"];
-
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    if (data.ToLower().Contains("error"))
-                    {
-                        outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.Red) });
-                    }
-                    else if (data.ToLower().Contains("warning"))
-                    {
-                        outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.Yellow) });
-                    }
-                    else
-                    {
-                        outputTextBlock.Inlines.Add(new Run() { Text = data });
-                    }
-
-                    outputTextBlock.Inlines.Add(new LineBreak());
-                }).AsTask();
-        }
-
-        /// <summary>
-        /// When the desktop process is connected, get ready to send/receive requests
-        /// </summary>
-        private void AppServiceConnected(object sender, AppServiceTriggerDetails e)
-        {
-            App.Connection.RequestReceived += AppServiceConnection_RequestReceived;
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    // enable UI to access  the connection
-            //    btnRegKey.IsEnabled = true;
-            //});
-        }
-
-        /// <summary>
-        /// When the desktop process is disconnected, reconnect if needed
-        /// </summary> 
-        private void AppServiceDisconnected(object sender, EventArgs e)
-        {
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    // disable UI to access the connection
-            //    btnRegKey.IsEnabled = false;
-
-            //    // ask user if they want to reconnect
-            //    Reconnect();
-            //});
-        }
 
     }
 }
