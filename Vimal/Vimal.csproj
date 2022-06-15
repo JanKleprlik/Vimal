@@ -158,6 +158,7 @@
     <Compile Include="Services\DragAndDrop\VisualDropConfiguration.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\SyntaxHighlightingService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ScriptViewModel.cs" />

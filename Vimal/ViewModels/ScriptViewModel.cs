@@ -77,10 +77,8 @@ namespace Vimal.ViewModels
 
         public void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Debug.WriteLine("Changed");
-            if (sender is TextBox){
+            if (sender is TextBox)
                 Script = (sender as TextBox).Text;
-            }
         }
 
 

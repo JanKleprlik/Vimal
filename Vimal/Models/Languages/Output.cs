@@ -7,7 +7,7 @@ using Windows.UI;
 
 namespace Vimal.Models.Languages
 {
-    internal class Output : ILanguage
+    internal class OutputLanguage : ILanguage
     {
         public IEnumerable<Keyword> Keywords { get; } =
             new Keyword[]
