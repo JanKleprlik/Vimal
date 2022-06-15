@@ -19,23 +19,25 @@ using Windows.UI.Text;
 using Windows.UI;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using Vimal.Services;
+using System.Diagnostics;
+using Vimal.ViewModels;
 
 namespace Vimal.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// A page containing a script
     /// </summary>
     public sealed partial class ScriptPage : Page
     {
+        public ScriptViewModel ViewModel { get; } = new ScriptViewModel();
+
+
         public ScriptPage()
         {
             this.InitializeComponent();
         }
         
-        private Color currentColor = Colors.Green;
-
 
         #region EditBox
 
@@ -60,7 +62,7 @@ namespace Vimal.Views
                         (uint)randAccStream.Size);
                     await randAccStream.ReadAsync(buffer,
                         (uint)randAccStream.Size, InputStreamOptions.None);
-                    editor.Text = System.Text.Encoding.Default.GetString(buffer.ToArray());
+                    ViewModel.Script = System.Text.Encoding.Default.GetString(buffer.ToArray());
                 }
             }
         }
@@ -86,7 +88,7 @@ namespace Vimal.Views
                 using (Windows.Storage.Streams.IRandomAccessStream randAccStream =
                     await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
                 {
-                    await randAccStream.WriteAsync(CryptographicBuffer.ConvertStringToBinary(editor.Text, BinaryStringEncoding.Utf8));
+                    await randAccStream.WriteAsync(CryptographicBuffer.ConvertStringToBinary(ViewModel.Script, BinaryStringEncoding.Utf8));
                     //editor.Text.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                 }
 
@@ -103,27 +105,17 @@ namespace Vimal.Views
         }
 
         
-        private void BoldButton_Click(object sender, RoutedEventArgs e)
+        private void RunButton_Click(object sender, RoutedEventArgs e)
         {
             //editor.Document.Selection.CharacterFormat.Bold = FormatEffect.Toggle;
+            Debug.WriteLine(editor.Text);
         }
 
-        private void ItalicButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             //editor.Document.Selection.CharacterFormat.Italic = FormatEffect.Toggle;
-        }
-
-        private void ColorButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Extract the color of the button that was clicked.
-            Button clickedColor = (Button)sender;
-            var rectangle = (Windows.UI.Xaml.Shapes.Rectangle)clickedColor.Content;
-            var color = ((Windows.UI.Xaml.Media.SolidColorBrush)rectangle.Fill).Color;
-
-            //editor.Document.Selection.CharacterFormat.ForegroundColor = color;
-
-            fontColorButton.Flyout.Hide();
-            editor.Focus(Windows.UI.Xaml.FocusState.Keyboard);
+            
+            NavigationService.Navigate(typeof(SettingsPage));
         }
 
         private void FindBoxHighlightMatches()

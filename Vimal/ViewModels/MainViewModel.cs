@@ -33,19 +33,12 @@ namespace Vimal.ViewModels
             new TabViewItemData()
             {
                 Index = 1,
-                Header = "Settigns",
-                IconSource = "Setting",
-                Content = new SettingsPage()
-            },
-            new TabViewItemData()
-            {
-                Index = 2,
                 Header = "Kotlin",
                 Content = new ScriptPage()
             },
             new TabViewItemData()
             {
-                Index = 3,
+                Index = 2,
                 Header = "Swift",
                 Content = new ScriptPage()
             }
@@ -94,7 +87,8 @@ namespace Vimal.ViewModels
 
         private void OpenSettigns()
         {
-            NavigationService.Navigate(typeof(SettingsPage), null);
+            //NavigationService.GoBack();
+            //NavigationService.Navigate(typeof(SettingsPage), null);
         }
     }
 }
