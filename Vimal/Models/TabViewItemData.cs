@@ -1,4 +1,5 @@
-﻿using Vimal.Views;
+﻿using System;
+using Vimal.Views;
 
 namespace Vimal.Models
 {
@@ -7,8 +8,9 @@ namespace Vimal.Models
         public int Index { get; set; }
 
         //TODO: add icons 
-        public string IconSource { get; set; } = "List";
-        
+        public Uri IconSource { get; set; } = new Uri("ms-appx:///Assets/kotlin_logo.png");
+
+
         public string Header { get; set; }
 
         public object Content { get; set; }

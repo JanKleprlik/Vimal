@@ -30,8 +30,9 @@
                     Content="{x:Bind Content}"
                     >
                     <winui:TabViewItem.IconSource>
-                        <winui:SymbolIconSource
-                            Symbol="{x:Bind IconSource}"
+                        <winui:BitmapIconSource
+                            UriSource="{x:Bind IconSource}"
+                            ShowAsMonochrome="False"
                          />
                     </winui:TabViewItem.IconSource>
                 </winui:TabViewItem>

@@ -34,12 +34,14 @@ namespace Vimal.ViewModels
             {
                 Index = 1,
                 Header = "Kotlin",
+                IconSource = new Uri("ms-appx:///Assets/kotlin_logo.png"),
                 Content = new ScriptPage()
             },
             new TabViewItemData()
             {
                 Index = 2,
                 Header = "Swift",
+                IconSource = new Uri("ms-appx:///Assets/swift_logo.png"),
                 Content = new ScriptPage()
             }
         };

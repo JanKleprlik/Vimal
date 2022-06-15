@@ -79,8 +79,8 @@ namespace Vimal.ViewModels
 
         private void CloseSettigns()
         {
-            NavigationService.GoBack();
-            //NavigationService.Navigate(typeof(MainPage), null);
+            //NavigationService.GoBack();
+            NavigationService.Navigate(typeof(MainPage), Tabs);
         }
     }
 }
