@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    xmlns:mlab="using:Menulab"
     mc:Ignorable="d"
     
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -90,6 +89,7 @@
                     />
                 
             </ScrollViewer>
+
             <ScrollViewer
                 x:Name="scrollVieverScriptBox"
                 RelativePanel.Below="openFileButton"
