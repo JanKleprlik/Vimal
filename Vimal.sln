@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vimal", "Vimal\Vimal.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vimal.Core", "Vimal.Core\Vimal.Core.csproj", "{8AADB805-1410-445F-9A10-2FCB3B5957B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptProcessor", "ScriptProcessor\ScriptProcessor.csproj", "{F29557AD-2439-4DC8-BA95-36133B50EA08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,26 @@ Global
 		{8AADB805-1410-445F-9A10-2FCB3B5957B0}.Release|x64.Build.0 = Release|Any CPU
 		{8AADB805-1410-445F-9A10-2FCB3B5957B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{8AADB805-1410-445F-9A10-2FCB3B5957B0}.Release|x86.Build.0 = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|x64.Build.0 = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Debug|x86.Build.0 = Debug|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|ARM.Build.0 = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|ARM64.Build.0 = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|x64.ActiveCfg = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|x64.Build.0 = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|x86.ActiveCfg = Release|Any CPU
+		{F29557AD-2439-4DC8-BA95-36133B50EA08}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
