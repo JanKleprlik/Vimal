@@ -44,10 +44,8 @@ namespace Vimal.Views
             this.InitializeComponent();
             ViewModel = new ScriptViewModel(FindName("outputTextBlock") as TextBlock, FindName("scriptEditor") as TextBlock);
 
-            //string isListenerSet = ApplicationData.Current.LocalSettings.Values["IsListenerSet"] as string;
             if (!wasSet)
             {
-                //ApplicationData.Current.LocalSettings.Values["IsListenerSet"] = "SET";
                 wasSet = true;
                 App.AppServiceDisconnected += AppServiceDisconnected;
                 App.AppServiceConnected += AppServiceConnected;
@@ -89,11 +87,6 @@ namespace Vimal.Views
         private void AppServiceConnected(object sender, AppServiceTriggerDetails e)
         {
             App.Connection.RequestReceived += AppServiceConnection_RequestReceived;
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    // enable UI to access  the connection
-            //    btnRegKey.IsEnabled = true;
-            //});
         }
 
         /// <summary>
@@ -101,18 +94,8 @@ namespace Vimal.Views
         /// </summary> 
         private void AppServiceDisconnected(object sender, EventArgs e)
         {
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    // disable UI to access the connection
-            //    btnRegKey.IsEnabled = false;
 
-            //    // ask user if they want to reconnect
-            //    Reconnect();
-            //});
         }
-
-
-        #region EditBox
 
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
@@ -180,58 +163,7 @@ namespace Vimal.Views
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             await FirstRunDisplayService.ShowIfAppropriateAsync();
-            //NavigationService.Navigate(typeof(SettingsPage), ViewModel);
         }
-
-        private void FindBoxHighlightMatches()
-        {
-            FindBoxRemoveHighlights();
-
-            //Color highlightBackgroundColor = (Color)App.Current.Resources["SystemColorHighlightColor"];
-            //Color highlightForegroundColor = (Color)App.Current.Resources["SystemColorHighlightTextColor"];
-
-            //string textToFind = "";// findBox.Text;
-            //if (textToFind != null)
-            //{
-            //    ITextRange searchRange = editor.Document.GetRange(0, 0);
-            //    while (searchRange.FindText(textToFind, TextConstants.MaxUnitCount, FindOptions.None) > 0)
-            //    {
-            //        searchRange.CharacterFormat.BackgroundColor = highlightBackgroundColor;
-            //        searchRange.CharacterFormat.ForegroundColor = highlightForegroundColor;
-            //    }
-            //}
-        }
-
-        private void FindBoxRemoveHighlights()
-        {
-            //ITextRange documentRange = editor.Document.GetRange(0, TextConstants.MaxUnitCount);
-            //SolidColorBrush defaultBackground = editor.Background as SolidColorBrush;
-            //SolidColorBrush defaultForeground = editor.Foreground as SolidColorBrush;
-
-            //documentRange.CharacterFormat.BackgroundColor = defaultBackground.Color;
-            //documentRange.CharacterFormat.ForegroundColor = defaultForeground.Color;
-        }
-
-        private void Editor_GotFocus(object sender, RoutedEventArgs e)
-        {
-            //editor.Document.GetText(TextGetOptions.UseCrlf, out string currentRawText);
-
-            //// reset colors to correct defaults for Focused state
-            //ITextRange documentRange = editor.Document.GetRange(0, TextConstants.MaxUnitCount);
-            //SolidColorBrush background = (SolidColorBrush)App.Current.Resources["TextControlBackgroundFocused"];
-
-            //if (background != null)
-            //{
-            //    documentRange.CharacterFormat.BackgroundColor = background.Color;
-            //}
-        }
-
-        private void Editor_TextChanged(object sender, RoutedEventArgs e)
-        {
-            //editor.Document.Selection.CharacterFormat.ForegroundColor = currentColor;
-        }
-
-        #endregion
 
         private void SynchronizedScrollerOnViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {

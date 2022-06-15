@@ -17,16 +17,12 @@ namespace Vimal.ViewModels
     public class MainViewModel : ObservableObject
     {
         private RelayCommand _addTabCommand;
-        private RelayCommand _settingsCommand;
         private RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs> _closeTabCommand;
         private RelayCommand<int> _closeTabCommandByIdx;
-        private RelayCommand<int> _renameTabCommandByIdx;
 
         public RelayCommand AddTabCommand => _addTabCommand ?? (_addTabCommand = new RelayCommand(AddTab));
-        public RelayCommand SettingsCommand => _settingsCommand ?? (_settingsCommand = new RelayCommand(OpenSettigns));
         public RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs> CloseTabCommand => _closeTabCommand ?? (_closeTabCommand = new RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs>(CloseTab));
         public RelayCommand<int> CloseTabCommandByIdx => _closeTabCommandByIdx ?? (_closeTabCommandByIdx = new RelayCommand<int>(CloseTabByIdx));
-        public RelayCommand<int> RenameTabCommandByIdx => _renameTabCommandByIdx ?? (_renameTabCommandByIdx = new RelayCommand<int>(RenameTabByIdx));
 
         public ObservableCollection<TabViewItemData> Tabs { get; } = new ObservableCollection<TabViewItemData>()
         {
@@ -69,15 +65,6 @@ namespace Vimal.ViewModels
             }
         }
 
-        private void RenameTabByIdx(int idx)
-        {
-            if (Tabs.Any(t => t.Index == idx))
-            {
-                var item = Tabs.First(t => t.Index == idx);
-                item.Header = "new header";
-            }
-        }
-
         private void CloseTabByIdx(int idx)
         {
             if (idx < 1 || idx > Tabs.Count)
@@ -85,12 +72,6 @@ namespace Vimal.ViewModels
                 return;
             }
             Tabs.RemoveAt(idx);
-        }
-
-        private void OpenSettigns()
-        {
-            //NavigationService.GoBack();
-            //NavigationService.Navigate(typeof(SettingsPage), null);
         }
     }
 }
