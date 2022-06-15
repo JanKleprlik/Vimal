@@ -17,6 +17,8 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
 using Windows.UI.Text;
 using Windows.UI;
+using Windows.Security.Cryptography;
+using Windows.Storage.Streams;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -54,7 +56,11 @@ namespace Vimal.Views
                     await file.OpenAsync(Windows.Storage.FileAccessMode.Read))
                 {
                     // Load the file into the Document property of the RichEditBox.
-                    editor.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, randAccStream);
+                    IBuffer buffer = new Windows.Storage.Streams.Buffer(
+                        (uint)randAccStream.Size);
+                    await randAccStream.ReadAsync(buffer,
+                        (uint)randAccStream.Size, InputStreamOptions.None);
+                    editor.Text = System.Text.Encoding.Default.GetString(buffer.ToArray());
                 }
             }
         }
@@ -65,7 +71,7 @@ namespace Vimal.Views
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
 
             // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("Rich Text", new List<string>() { ".rtf" });
+            savePicker.FileTypeChoices.Add("Rich Text", new List<string>() { ".txt", ".kts" });
 
             // Default file name if the user does not type one in or select a file to replace
             savePicker.SuggestedFileName = "New Document";
@@ -80,7 +86,8 @@ namespace Vimal.Views
                 using (Windows.Storage.Streams.IRandomAccessStream randAccStream =
                     await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
                 {
-                    editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                    await randAccStream.WriteAsync(CryptographicBuffer.ConvertStringToBinary(editor.Text, BinaryStringEncoding.Utf8));
+                    //editor.Text.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                 }
 
                 // Let Windows know that we're finished changing the file so the
@@ -95,14 +102,15 @@ namespace Vimal.Views
             }
         }
 
+        
         private void BoldButton_Click(object sender, RoutedEventArgs e)
         {
-            editor.Document.Selection.CharacterFormat.Bold = FormatEffect.Toggle;
+            //editor.Document.Selection.CharacterFormat.Bold = FormatEffect.Toggle;
         }
 
         private void ItalicButton_Click(object sender, RoutedEventArgs e)
         {
-            editor.Document.Selection.CharacterFormat.Italic = FormatEffect.Toggle;
+            //editor.Document.Selection.CharacterFormat.Italic = FormatEffect.Toggle;
         }
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
@@ -112,7 +120,7 @@ namespace Vimal.Views
             var rectangle = (Windows.UI.Xaml.Shapes.Rectangle)clickedColor.Content;
             var color = ((Windows.UI.Xaml.Media.SolidColorBrush)rectangle.Fill).Color;
 
-            editor.Document.Selection.CharacterFormat.ForegroundColor = color;
+            //editor.Document.Selection.CharacterFormat.ForegroundColor = color;
 
             fontColorButton.Flyout.Hide();
             editor.Focus(Windows.UI.Xaml.FocusState.Keyboard);
@@ -122,49 +130,48 @@ namespace Vimal.Views
         {
             FindBoxRemoveHighlights();
 
-            Color highlightBackgroundColor = (Color)App.Current.Resources["SystemColorHighlightColor"];
-            Color highlightForegroundColor = (Color)App.Current.Resources["SystemColorHighlightTextColor"];
+            //Color highlightBackgroundColor = (Color)App.Current.Resources["SystemColorHighlightColor"];
+            //Color highlightForegroundColor = (Color)App.Current.Resources["SystemColorHighlightTextColor"];
 
-            string textToFind = findBox.Text;
-            if (textToFind != null)
-            {
-                ITextRange searchRange = editor.Document.GetRange(0, 0);
-                while (searchRange.FindText(textToFind, TextConstants.MaxUnitCount, FindOptions.None) > 0)
-                {
-                    searchRange.CharacterFormat.BackgroundColor = highlightBackgroundColor;
-                    searchRange.CharacterFormat.ForegroundColor = highlightForegroundColor;
-                }
-            }
+            //string textToFind = "";// findBox.Text;
+            //if (textToFind != null)
+            //{
+            //    ITextRange searchRange = editor.Document.GetRange(0, 0);
+            //    while (searchRange.FindText(textToFind, TextConstants.MaxUnitCount, FindOptions.None) > 0)
+            //    {
+            //        searchRange.CharacterFormat.BackgroundColor = highlightBackgroundColor;
+            //        searchRange.CharacterFormat.ForegroundColor = highlightForegroundColor;
+            //    }
+            //}
         }
 
         private void FindBoxRemoveHighlights()
         {
-            ITextRange documentRange = editor.Document.GetRange(0, TextConstants.MaxUnitCount);
-            SolidColorBrush defaultBackground = editor.Background as SolidColorBrush;
-            SolidColorBrush defaultForeground = editor.Foreground as SolidColorBrush;
+            //ITextRange documentRange = editor.Document.GetRange(0, TextConstants.MaxUnitCount);
+            //SolidColorBrush defaultBackground = editor.Background as SolidColorBrush;
+            //SolidColorBrush defaultForeground = editor.Foreground as SolidColorBrush;
 
-            documentRange.CharacterFormat.BackgroundColor = defaultBackground.Color;
-            documentRange.CharacterFormat.ForegroundColor = defaultForeground.Color;
+            //documentRange.CharacterFormat.BackgroundColor = defaultBackground.Color;
+            //documentRange.CharacterFormat.ForegroundColor = defaultForeground.Color;
         }
 
         private void Editor_GotFocus(object sender, RoutedEventArgs e)
         {
-            editor.Document.GetText(TextGetOptions.UseCrlf, out string currentRawText);
+            //editor.Document.GetText(TextGetOptions.UseCrlf, out string currentRawText);
 
-            // reset colors to correct defaults for Focused state
-            ITextRange documentRange = editor.Document.GetRange(0, TextConstants.MaxUnitCount);
-            SolidColorBrush background = (SolidColorBrush)App.Current.Resources["TextControlBackgroundFocused"];
+            //// reset colors to correct defaults for Focused state
+            //ITextRange documentRange = editor.Document.GetRange(0, TextConstants.MaxUnitCount);
+            //SolidColorBrush background = (SolidColorBrush)App.Current.Resources["TextControlBackgroundFocused"];
 
-            if (background != null)
-            {
-                documentRange.CharacterFormat.BackgroundColor = background.Color;
-            }
+            //if (background != null)
+            //{
+            //    documentRange.CharacterFormat.BackgroundColor = background.Color;
+            //}
         }
-
 
         private void Editor_TextChanged(object sender, RoutedEventArgs e)
         {
-            editor.Document.Selection.CharacterFormat.ForegroundColor = currentColor;
+            //editor.Document.Selection.CharacterFormat.ForegroundColor = currentColor;
         }
 
         #endregion
