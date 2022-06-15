@@ -76,32 +76,15 @@
         </RelativePanel>
 
 
-        <Grid
-            Padding="4,12,4,0"
-            Grid.Row="1"
-            >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Button
-        HorizontalAlignment="Left"
-        >
-                <SymbolIcon Symbol="Play"/>
-            </Button>
-            <Button
-        HorizontalAlignment="Right"
-        >
-                <SymbolIcon Symbol="Setting"/>
-            </Button>
 
-            <TextBlock
-        Grid.Row="1"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Text="HelloTHere"
-        />
-        </Grid>
+
+        <TextBlock
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Padding="10"
+            Text="{x:Bind ViewModel.Script, Mode=OneWay}"
+            />
 
 
         <controls:GridSplitter

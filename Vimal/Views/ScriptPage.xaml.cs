@@ -162,5 +162,10 @@ namespace Vimal.Views
         }
 
         #endregion
+
+        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
