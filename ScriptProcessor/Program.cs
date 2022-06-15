@@ -79,10 +79,9 @@ while (!proc.StandardOutput.EndOfStream)
     string line = proc.StandardOutput.ReadLine();
     ValueSet request = new ValueSet();
     request.Add("LINE", line);
-    AppServiceResponse response = await connection.SendMessageAsync(request);
-    string result = (string)response.Message["RESULT"];
+    
+    await connection.SendMessageAsync(request);
 
-    Console.WriteLine(result);
     // Do something with line
     Console.WriteLine(line);
 }
@@ -93,3 +92,5 @@ if (proc.ExitCode != 0)
     //Write error to output
     Console.WriteLine(proc.StandardError.ReadToEnd());
 }
+
+connection.RequestReceived -= Connection_RequestReceived;

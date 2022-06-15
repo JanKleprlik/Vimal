@@ -26,6 +26,7 @@
             <Button
                 x:Name="runScriptButton"
                 Command="{x:Bind ViewModel.RunScriptCommand}"
+                Foreground="LightGreen"
                 AutomationProperties.Name="Open file"
                 ToolTipService.ToolTip="Open file">
                 <Button.Content>
@@ -62,7 +63,11 @@
             </Button>
 
 
-            <TextBox x:Name="editor" AutomationProperties.Name="Custom editor"
+            <TextBox
+                x:Name="editor"
+                PlaceholderText="Enter your script ..."
+                PlaceholderForeground="DimGray"
+                AutomationProperties.Name="Custom editor"
                 RelativePanel.Below="openFileButton"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
@@ -75,16 +80,22 @@
                 />
         </RelativePanel>
 
-        <TextBlock
+        <ScrollViewer
             Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Padding="10"
-            TextWrapping="NoWrap"
-            TextTrimming="None"
+            HorizontalScrollBarVisibility="Auto"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto">
+                <TextBlock
+                    x:Name="outputTextBlock"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Padding="10"
+                    TextWrapping="NoWrap"
+                    TextTrimming="None"
+                />
+        </ScrollViewer>
 
-            Text="{x:Bind ViewModel.Output, Mode=OneWay}"
-            />
 
 
         <controls:GridSplitter

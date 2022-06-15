@@ -12,11 +12,23 @@ using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 
 namespace Vimal.ViewModels
 {
     public class ScriptViewModel : ObservableObject
     {
+        private TextBlock outputTextBlock;
+        
+        public ScriptViewModel(TextBlock outputTextBlock)
+        {
+            this.outputTextBlock = outputTextBlock;
+
+            App.AppServiceConnected += AppServiceConnected;
+            App.AppServiceDisconnected += AppServiceDisconnected;
+        }
+        
         #region properties
         
         private string _script;
@@ -32,15 +44,25 @@ namespace Vimal.ViewModels
             get => _output;
             set => SetProperty(ref _output, value);
         }
-        
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
         #endregion
+
         private RelayCommand _runScriptCommand;
         public RelayCommand RunScriptCommand => _runScriptCommand ?? (_runScriptCommand = new RelayCommand(RunScript));
 
 
         private async void RunScript()
         {
-            Debug.WriteLine("Starting process...");
+            outputTextBlock.Inlines.Clear();
+            outputTextBlock.Inlines.Add(new Run { Text = " <<< Starting process ... >>>", Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.LightGreen) });
+            outputTextBlock.Inlines.Add(new LineBreak());
 
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0))
             {
@@ -50,20 +72,8 @@ namespace Vimal.ViewModels
                 ApplicationData.Current.LocalSettings.Values["scriptPath"] = @"C:\Users\klepr\source\repos\JB\Kotlin\HelloWorld.kts";// ViewModel.ScriptPath;
                 ApplicationData.Current.LocalSettings.Values["scriptData"] = Script;
 
-                App.AppServiceConnected += AppServiceConnected;
-                App.AppServiceDisconnected += AppServiceDisconnected;
-
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");
             }
-
-            //ValueSet request = new ValueSet();
-            //request.Add("KEY", "VALUE");
-            //AppServiceResponse response = await App.connection.SendMessageAsync(request);
-            //Debug.WriteLine("Response: " + response.Message);
-
-            Debug.WriteLine("Process is running ...");
-            Debug.WriteLine("");
-            Debug.WriteLine("Press any key to exit.");
         }
 
         /// <summary>
@@ -72,26 +82,26 @@ namespace Vimal.ViewModels
         /// </summary>
         private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            string d1 = (string)args.Request.Message["LINE"];
+            string data = (string)args.Request.Message["LINE"];
 
-            //ValueSet response = new ValueSet();
-            //response.Add("RESULT", "OK");
-            //await args.Request.SendResponseAsync(response);
-
-            Debug.WriteLine(d1);
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () =>
-            {
-                Output += d1;
-                Output += Environment.NewLine;
-            }
-            ).AsTask();
+                () =>
+                {
+                    if (data.ToLower().Contains("error"))
+                    {
+                        outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.Red) });
+                    }
+                    else if (data.ToLower().Contains("warning"))
+                    {
+                        outputTextBlock.Inlines.Add(new Run() { Text = data, Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.Yellow) });
+                    }
+                    else
+                    {
+                        outputTextBlock.Inlines.Add(new Run() { Text = data });
+                    }
 
-            // log the request in the UI for demo purposes
-            //await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    tbRequests.Text += string.Format("Request: {0} + {1} --> Response = {2}\r\n", d1, d2, result);
-            //});
+                    outputTextBlock.Inlines.Add(new LineBreak());
+                }).AsTask();
         }
 
         /// <summary>
@@ -109,7 +119,7 @@ namespace Vimal.ViewModels
 
         /// <summary>
         /// When the desktop process is disconnected, reconnect if needed
-        /// </summary>
+        /// </summary> 
         private void AppServiceDisconnected(object sender, EventArgs e)
         {
             //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

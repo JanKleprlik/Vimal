@@ -28,12 +28,13 @@ namespace Vimal.Views
     /// </summary>
     public sealed partial class ScriptPage : Page
     {
-        public ScriptViewModel ViewModel { get; } = new ScriptViewModel();
+        public ScriptViewModel ViewModel { get; }
 
 
         public ScriptPage()
         {
             this.InitializeComponent();
+            ViewModel = new ScriptViewModel(FindName("outputTextBlock") as TextBlock);
         }
 
 
