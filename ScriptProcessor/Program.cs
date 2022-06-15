@@ -52,7 +52,7 @@ Process proc = new Process
 {
     StartInfo = new ProcessStartInfo
     {
-        FileName = @"kotlinc",
+        FileName = @"kotlinc.bat",
         Arguments = @"-script " + scriptPath,
         WorkingDirectory = @"C:\Program Files\Kotlin\kotlinc\bin",
         UseShellExecute = false,
