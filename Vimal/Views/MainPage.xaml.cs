@@ -24,6 +24,7 @@ namespace Vimal.Views
 
             Window.Current.SetTitleBar(CustomDragRegion);
         }
+        
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {

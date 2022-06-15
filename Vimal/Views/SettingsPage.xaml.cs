@@ -18,6 +18,7 @@ namespace Vimal.Views
     {
         public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
 
+        
         public SettingsPage()
         {
             InitializeComponent();

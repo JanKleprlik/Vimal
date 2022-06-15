@@ -15,8 +15,6 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
-using Windows.UI.Text;
-using Windows.UI;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using Vimal.Services;
@@ -37,7 +35,7 @@ namespace Vimal.Views
         {
             this.InitializeComponent();
         }
-        
+
 
         #region EditBox
 
@@ -107,15 +105,12 @@ namespace Vimal.Views
         
         private void RunButton_Click(object sender, RoutedEventArgs e)
         {
-            //editor.Document.Selection.CharacterFormat.Bold = FormatEffect.Toggle;
-            Debug.WriteLine(editor.Text);
+            Debug.WriteLine(ViewModel.Script);
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            //editor.Document.Selection.CharacterFormat.Italic = FormatEffect.Toggle;
-            
-            NavigationService.Navigate(typeof(SettingsPage));
+            NavigationService.Navigate(typeof(SettingsPage), ViewModel);
         }
 
         private void FindBoxHighlightMatches()
