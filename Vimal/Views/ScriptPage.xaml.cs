@@ -46,7 +46,7 @@ namespace Vimal.Views
                 new Windows.Storage.Pickers.FileOpenPicker();
             open.SuggestedStartLocation =
                 Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-            open.FileTypeFilter.Add(".txt");
+            open.FileTypeFilter.Add(".kts");
 
             Windows.Storage.StorageFile file = await open.PickSingleFileAsync();
 
@@ -100,12 +100,6 @@ namespace Vimal.Views
                     await errorBox.ShowAsync();
                 }
             }
-        }
-
-        
-        private void RunButton_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine(ViewModel.Script);
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)

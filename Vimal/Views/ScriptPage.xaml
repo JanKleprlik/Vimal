@@ -25,7 +25,7 @@
             </RelativePanel.Resources>
             <Button
                 x:Name="runScriptButton"
-                Click="RunButton_Click"
+                Command="{x:Bind ViewModel.RunScriptCommand}"
                 AutomationProperties.Name="Open file"
                 ToolTipService.ToolTip="Open file">
                 <Button.Content>
@@ -83,7 +83,10 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Padding="10"
-            Text="{x:Bind ViewModel.Script, Mode=OneWay}"
+            TextWrapping="NoWrap"
+            TextTrimming="None"
+
+            Text="{x:Bind ViewModel.Output, Mode=OneWay}"
             />
 
 

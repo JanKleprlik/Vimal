@@ -42,6 +42,7 @@ var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
 string v = localSettings.Values["compilerPath"] as string ?? "";
 string v2 = localSettings.Values["scriptPath"] as string ?? "";
+string v3 = localSettings.Values["scriptData"] as string ?? "";
 
 
 Console.WriteLine(v);
@@ -92,6 +93,3 @@ if (proc.ExitCode != 0)
     //Write error to output
     Console.WriteLine(proc.StandardError.ReadToEnd());
 }
-Console.WriteLine();
-Console.WriteLine("Press any key to exit.");
-Console.ReadLine();
