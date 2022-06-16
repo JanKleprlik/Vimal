@@ -122,62 +122,25 @@
     <comment>Application display name</comment>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>Vimal</value>
+    <value>Vimal - simple script editor</value>
     <comment>Application description</comment>
   </data>
-  <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Choose Theme</value>
-    <comment>Choose theme text for Settings</comment>
-  </data>
-  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
-    <comment>Dark theme text for Settings</comment>
-  </data>
-  <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Windows default</value>
-    <comment>Windows default theme text for Settings</comment>
-  </data>
-  <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
-    <comment>Light theme text for Settings</comment>
-  </data>
-  <data name="Settings_About.Text" xml:space="preserve">    
-    <value>About this application</value>
-    <comment>About this application title for Settings</comment>
-  </data>
-  <data name="Settings_AboutDescription.Text" xml:space="preserve">    
-    <value>Settings page placeholder text.  Your app description goes here.</value>
-    <comment>About this application description for Settings</comment>
-  </data>
-  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">    
-    <value>Privacy Statement</value>
-    <comment>Privacy Statement link content for Settings</comment>
-  </data>
-  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">  
-    <value>https://YourPrivacyUrlGoesHere/</value>
-    <comment>Here is your Privacy Statement url for Settings</comment>
-  </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">   
-    <value>Personalization</value>
-    <comment>Personalization text for Settings</comment>
-  </data>
-  <data name="Settings_Title.Text" xml:space="preserve">
-    <value>Settings</value>
-    <comment>Page title for SettingsPage</comment>
-  </data>
   <data name="Settings_Bot.Text" xml:space="preserve">
-    <value>Replace all of this.</value>
-    <comment>First use prompt message body</comment>
+    <value>Vimal (as in Vim's Rival) is MVP version of an application used for writing and running simple scripts that provides simple syntax highlighting. </value>
+    
   </data>
-  <data name="FirstRunDialog.Title" xml:space="preserve">
+  <data name="SettingsDialog.Title" xml:space="preserve">
     <value>Settings</value>
     <comment>First use prompt message title</comment>
   </data>
-  <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="SettingsDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ok</value>
     <comment>First use prompt message primary button text</comment>
   </data>
   <data name="Settings_Top.Text" xml:space="preserve">
     <value>Please enter an absolute path to your script compiler.</value>
+  </data>
+  <data name="Settings_Bot2.Text" xml:space="preserve">
+    <value>Currently the only fully supported language is Kotlin. Syntax highlighting is also supported for Swift. The application is designed in such manner that it is very simple to add support for new languages. You can find more information in the readme of this app GitHub repository:</value>
   </data>
 </root>

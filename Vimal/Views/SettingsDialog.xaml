@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Uid="FirstRunDialog"
+    x:Uid="SettingsDialog"
     d:DesignHeight="345"
     d:DesignWidth="550"
     mc:Ignorable="d"
@@ -41,6 +41,16 @@
                 x:Uid="Settings_Bot"
                 TextWrapping="WrapWholeWords"
                 Margin="10"/>
+            <TextBlock
+                x:Uid="Settings_Bot2"
+                TextWrapping="WrapWholeWords"
+                Margin="10,0,0,0"
+                />
+            <HyperlinkButton
+                Content="https://github.com/JanKleprlik/Vimal"
+                NavigateUri="https://github.com/JanKleprlik/Vimal"
+                Margin="20,0,0,0"
+                />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>
