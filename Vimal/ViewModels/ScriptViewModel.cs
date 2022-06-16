@@ -1,30 +1,17 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vimal.Models.Languages;
 using Vimal.Services;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
 
 namespace Vimal.ViewModels
 {
     public class ScriptViewModel : ObservableObject
     {
-        private ILanguage language;
-        private TextBlock scriptTextBlock;
-        public  DateTime ScriptStartTime;
-        public int CurrentRepetition;
 
         public ScriptViewModel(ILanguage lang, TextBlock scriptTextBlock)
         {
@@ -33,9 +20,15 @@ namespace Vimal.ViewModels
             IsBusy = false;
             Repetitions = 1;
         }
-        
+
+
         #region properties
-        
+
+        private ILanguage language { get; }
+        private TextBlock scriptTextBlock { get; }
+
+        public DateTime ScriptStartTime { get; set; }
+
         private string _script;
         public string Script
         {
@@ -48,13 +41,6 @@ namespace Vimal.ViewModels
         {
             get => _returnCode;
             set => SetProperty(ref _returnCode, value);
-        }
-
-        private string _output;
-        public string Output
-        {
-            get => _output;
-            set => SetProperty(ref _output, value);
         }
 
         private bool _isBusy;
@@ -84,6 +70,21 @@ namespace Vimal.ViewModels
         public RelayCommand RunScriptCommand => _runScriptCommand ?? (_runScriptCommand = new RelayCommand(RunScript));
 
 
+        /// <summary>
+        /// Adds highlighting to the code and displays it
+        /// </summary>
+        public void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox)
+            {
+                Script = (sender as TextBox).Text;
+                scriptTextBlock.Inlines.Clear();
+                SyntaxHighlightingService.Highlight(Script, scriptTextBlock, language);
+            }
+
+            
+        }
+
         private async void RunScript()
         {
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0))
@@ -98,19 +99,6 @@ namespace Vimal.ViewModels
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");
 
             }
-
-        }
-
-        public void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (sender is TextBox)
-            {
-                Script = (sender as TextBox).Text;
-                scriptTextBlock.Inlines.Clear();
-                SyntaxHighlightingService.Highlight(Script, scriptTextBlock, language);
-            }
-
-            
         }
     }
 }

@@ -32,15 +32,8 @@ namespace Vimal.Views
     /// </summary>
     public sealed partial class ScriptPage : Page
     {
-        private static bool wasSet = false;
-        public ScriptViewModel ViewModel { get; }
-        private const int ScrollLoopbackTimeout = 500;
-        private object _lastScrollingElement;
-        private int _lastScrollChange = Environment.TickCount;
-
         public ScriptPage(ILanguage language)
         {
-
             this.InitializeComponent();
             ViewModel = new ScriptViewModel(language, FindName("scriptEditor") as TextBlock);
 
@@ -49,16 +42,22 @@ namespace Vimal.Views
                 wasSet = true;
                 App.AppServiceDisconnected += AppServiceDisconnected;
                 App.AppServiceConnected += AppServiceConnected;
-
             }
         }
 
+        private static bool wasSet = false;
+        public ScriptViewModel ViewModel { get; }
+        private const int ScrollLoopbackTimeout = 500;
+        private object _lastScrollingElement;
+        private int _lastScrollChange = Environment.TickCount;
+
+
         /// <summary>
-        /// Handle calculation request from desktop process
-        /// (dummy scenario to show that connection is bi-directional)
+        /// Handle script output from process
         /// </summary>
         private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
+            // Log script output
             if (args.Request.Message.ContainsKey("LINE"))
             {
                 string data = (string)args.Request.Message["LINE"];
@@ -77,15 +76,9 @@ namespace Vimal.Views
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
-                    Debug.WriteLine(args.Request.Message["REP"] as string);
                     int currentRep = Int32.Parse(args.Request.Message["REP"] as string);
 
-                    DateTime currentTime = DateTime.Now;
-                    TimeSpan remainingTime = DateTime.Now - ViewModel.ScriptStartTime;
-                    remainingTime *= (ViewModel.Repetitions - currentRep);
-                    ViewModel.ProgressText = $"Left: {remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
-                    ViewModel.ScriptStartTime = currentTime;
-
+                    ComputeAndDisplayEstimatedTimeRemaining(currentRep);
 
                 }).AsTask();
             }
@@ -109,6 +102,15 @@ namespace Vimal.Views
             }
         }
 
+        private void ComputeAndDisplayEstimatedTimeRemaining(int currentRep)
+        {
+            DateTime currentTime = DateTime.Now;
+            TimeSpan remainingTime = DateTime.Now - ViewModel.ScriptStartTime;
+            remainingTime *= (ViewModel.Repetitions - currentRep);
+            ViewModel.ProgressText = $"Left: {remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
+            ViewModel.ScriptStartTime = currentTime;
+        }
+
         /// <summary>
         /// When the desktop process is connected, get ready to send/receive requests
         /// </summary>
@@ -118,34 +120,29 @@ namespace Vimal.Views
         }
 
         /// <summary>
-        /// When the desktop process is disconnected, reconnect if needed
+        /// When the desktop process is disconnected
         /// </summary> 
-        private void AppServiceDisconnected(object sender, EventArgs e)
-        {
+        private void AppServiceDisconnected(object sender, EventArgs e) { }
 
-        }
-
+        /// <summary>
+        /// Open file button handler
+        /// </summary>
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             // Open a text file.
-            Windows.Storage.Pickers.FileOpenPicker open =
-                new Windows.Storage.Pickers.FileOpenPicker();
-            open.SuggestedStartLocation =
-                Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            FileOpenPicker open = new FileOpenPicker();
+            open.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             open.FileTypeFilter.Add(".kts");
 
-            Windows.Storage.StorageFile file = await open.PickSingleFileAsync();
+            StorageFile file = await open.PickSingleFileAsync();
 
             if (file != null)
             {
-                using (Windows.Storage.Streams.IRandomAccessStream randAccStream =
-                    await file.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                using (IRandomAccessStream randAccStream = await file.OpenAsync(FileAccessMode.Read))
                 {
-                    // Load the file into the Document property of the RichEditBox.
-                    IBuffer buffer = new Windows.Storage.Streams.Buffer(
-                        (uint)randAccStream.Size);
-                    await randAccStream.ReadAsync(buffer,
-                        (uint)randAccStream.Size, InputStreamOptions.None);
+                    // Load the file into the Script property
+                    IBuffer buffer = new Windows.Storage.Streams.Buffer((uint)randAccStream.Size);
+                    await randAccStream.ReadAsync(buffer, (uint)randAccStream.Size, InputStreamOptions.None);
                     ViewModel.Script = System.Text.Encoding.Default.GetString(buffer.ToArray());
                 }
             }
@@ -157,10 +154,10 @@ namespace Vimal.Views
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
 
             // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("Rich Text", new List<string>() { ".txt", ".kts" });
+            savePicker.FileTypeChoices.Add("Scripts", new List<string>() { ".swift", ".kts" });
 
             // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "New Document";
+            savePicker.SuggestedFileName = "script";
 
             StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
@@ -169,11 +166,9 @@ namespace Vimal.Views
                 // finish making changes and call CompleteUpdatesAsync.
                 CachedFileManager.DeferUpdates(file);
                 // write to file
-                using (Windows.Storage.Streams.IRandomAccessStream randAccStream =
-                    await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
+                using (IRandomAccessStream randAccStream = await file.OpenAsync(FileAccessMode.ReadWrite))
                 {
                     await randAccStream.WriteAsync(CryptographicBuffer.ConvertStringToBinary(ViewModel.Script, BinaryStringEncoding.Utf8));
-                    //editor.Text.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                 }
 
                 // Let Windows know that we're finished changing the file so the

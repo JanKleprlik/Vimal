@@ -5,12 +5,9 @@ using System.Linq;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
-using Vimal.Helpers;
 using Vimal.Models;
 using Vimal.Models.Languages;
-using Vimal.Services;
 using Vimal.Views;
-using Windows.UI.Xaml.Media.Animation;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Vimal.ViewModels
@@ -27,6 +24,8 @@ namespace Vimal.ViewModels
 
         public ObservableCollection<TabViewItemData> Tabs { get; } = new ObservableCollection<TabViewItemData>()
         {
+            //Two tabs are added by default
+            // Kotlin and Swift
             new TabViewItemData()
             {
                 Index = 1,
