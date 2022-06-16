@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:conv="using:Vimal.Helpers"
     mc:Ignorable="d"
     
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -30,11 +31,24 @@
                 Command="{x:Bind ViewModel.RunScriptCommand}"
                 Foreground="LightGreen"
                 AutomationProperties.Name="Open file"
-                ToolTipService.ToolTip="Open file">
+                ToolTipService.ToolTip="Open file"
+                RelativePanel.RightOf="RunProgressRing"
+                Visibility="{x:Bind ViewModel.IsBusy, Converter={StaticResource BooleanToVisibilityInvertedConverter}, Mode=OneWay}">
                 <Button.Content>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEDB5;"/>
                 </Button.Content>
             </Button>
+            <winui:ProgressRing
+                x:Name="RunProgressRing"
+                Foreground="MediumPurple"
+                ToolTipService.ToolTip="Open file"
+                IsActive="{x:Bind ViewModel.IsBusy, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                Margin="10,5,14,16"
+                Height="20"
+                Width="20"
+                >
+            </winui:ProgressRing>
             <Button
                 x:Name="openFileButton"
                 Click="OpenButton_Click"
@@ -56,6 +70,7 @@
                 </Button.Content>
             </Button>
             <TextBlock
+                x:Name="returnCodeBlock"
                 RelativePanel.RightOf="saveFileButton"
                 Text="{x:Bind ViewModel.ReturnCode, Mode=OneWay}"
                 Padding="10,5,0,0"
@@ -66,6 +81,7 @@
                 AutomationProperties.Name="Settings"
                 ToolTipService.ToolTip="Settings"
                 Click="SettingsButton_Click"
+                IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
                 RelativePanel.AlignRightWithPanel="True">
                 <Button.Content>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;"/>

@@ -28,6 +28,7 @@ namespace Vimal.ViewModels
         {
             this.scriptTextBlock = scriptTextBlock;
             this.outputTextBlock = outputTextBlock;
+            IsBusy = false;
         }
         
         #region properties
@@ -74,6 +75,7 @@ namespace Vimal.ViewModels
                 // Save args to AppData
                 ApplicationData.Current.LocalSettings.Values["scriptData"] = Script;
 
+                IsBusy = true;
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");
             }
         }

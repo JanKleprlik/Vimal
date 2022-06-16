@@ -78,6 +78,7 @@ namespace Vimal.Views
                 () =>
                 {
                     ViewModel.ReturnCode = "Return code: " + (string)args.Request.Message["CODE"];
+                    ViewModel.IsBusy = false;
                     
                 }).AsTask();
             }
