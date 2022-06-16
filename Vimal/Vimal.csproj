@@ -140,13 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
-    <Compile Include="Helpers\BooleanToBooleanConverter.cs" />
-    <Compile Include="Helpers\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\Converters\BooleanToBooleanConverter.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
-    <Compile Include="Helpers\VisibilityToBooleanConverter.cs" />
-    <Compile Include="Models\DragDropCompletedData.cs" />
-    <Compile Include="Models\DragDropData.cs" />
-    <Compile Include="Models\DragDropStartingData.cs" />
+    <Compile Include="Helpers\Converters\VisibilityToBooleanConverter.cs" />
     <Compile Include="Models\Languages\ILanguage.cs" />
     <Compile Include="Models\Languages\KeyWord.cs" />
     <Compile Include="Models\Languages\Kotlin.cs" />
@@ -156,10 +152,6 @@
     <Compile Include="Models\TabViewItemData.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
-    <Compile Include="Services\DragAndDrop\DragDropService.cs" />
-    <Compile Include="Services\DragAndDrop\DropConfiguration.cs" />
-    <Compile Include="Services\DragAndDrop\ListViewDropConfiguration.cs" />
-    <Compile Include="Services\DragAndDrop\VisualDropConfiguration.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\SyntaxHighlightingService.cs" />
@@ -176,9 +168,6 @@
     <Compile Include="Views\ScriptPage.xaml.cs">
       <DependentUpon>ScriptPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -187,7 +176,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Helpers\_Converters.xaml">
+    <Page Include="Helpers\Converters\_Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,10 +228,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -256,13 +241,6 @@
     <Content Include="Assets\kotlin_logo.png" />
     <Content Include="Assets\swift_logo.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
