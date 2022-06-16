@@ -9,7 +9,7 @@
 	<Identity
 		Name="c15f7f8a-03a0-4d1b-9c54-13f92597fac5"
 		Publisher="CN=klepr"
-		Version="1.0.0.0" />
+		Version="1.0.3.0" />
 
 	<Properties>
 		<DisplayName>Package</DisplayName>
