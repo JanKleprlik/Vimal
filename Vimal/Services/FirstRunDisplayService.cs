@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Vimal.Views;
 
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.UI.Core;
 
 namespace Vimal.Services
@@ -23,7 +24,9 @@ namespace Vimal.Services
                     {
                         shown = true;
                     }
-                    var dialog = new FirstRunDialog();
+
+                    var currPath = ApplicationData.Current.LocalSettings.Values["compilerPath"] as string ?? @"C:\Program Files\Kotlin\kotlinc\bin";
+                    var dialog = new FirstRunDialog(currPath);
                     await dialog.ShowAsync();
                 });
         }

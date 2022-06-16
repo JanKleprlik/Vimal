@@ -39,6 +39,13 @@ namespace Vimal.ViewModels
             set => SetProperty(ref _script, value);
         }
 
+        private int _returnCode;
+        public int ReturnCode
+        {
+            get => _returnCode;
+            set => SetProperty(ref _returnCode, value);
+        }
+
         private string _output;
         public string Output
         {
@@ -69,8 +76,8 @@ namespace Vimal.ViewModels
             {
                 // Save args to AppData
                 //TODO: redo the paths to have them saved somewhere locally
-                ApplicationData.Current.LocalSettings.Values["compilerPath"] = @"C:\Program Files\Kotlin\kotlinc\bin\kotlinc.bat";//ViewModel.CompilerPath;
-                ApplicationData.Current.LocalSettings.Values["scriptPath"] = @"C:\Users\klepr\source\repos\JB\Kotlin\HelloWorld.kts";// ViewModel.ScriptPath;
+                //ApplicationData.Current.LocalSettings.Values["compilerPath"] = @"C:\Program Files\Kotlin\kotlinc\bin\kotlinc.bat";//ViewModel.CompilerPath;
+                //ApplicationData.Current.LocalSettings.Values["scriptPath"] = @"C:\Users\klepr\source\repos\JB\Kotlin\HelloWorld.kts";// ViewModel.ScriptPath;
                 ApplicationData.Current.LocalSettings.Values["scriptData"] = Script;
 
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");

@@ -40,7 +40,7 @@ var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
 var scriptPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\script.kts";
 
-string v = localSettings.Values["compilerPath"] as string ?? "";
+string compilerPath = localSettings.Values["compilerPath"] as string ?? "";
 string v2 = localSettings.Values["scriptPath"] as string ?? "";
 string scriptData = localSettings.Values["scriptData"] as string ?? "";
 
@@ -54,7 +54,7 @@ Process proc = new Process
     {
         FileName = @"kotlinc.bat",
         Arguments = @"-script " + scriptPath,
-        WorkingDirectory = @"C:\Program Files\Kotlin\kotlinc\bin",
+        WorkingDirectory = compilerPath,
         UseShellExecute = false,
         RedirectStandardOutput = true,
         RedirectStandardError = true,

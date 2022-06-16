@@ -59,15 +59,22 @@ namespace Vimal.Views
         /// </summary>
         private async void AppServiceConnection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            string data = (string)args.Request.Message["LINE"];
+            if (args.Request.Message.ContainsKey("LINE"))
+            {
+                string data = (string)args.Request.Message["LINE"];
 
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
                     SyntaxHighlightingService.Highlight(data, outputTextBlock, new OutputLanguage());
                     outputTextBlock.Inlines.Add(new LineBreak());
                     
                 }).AsTask();
+            }
+            if (args.Request.Message.ContainsKey("CODE"))
+            {
+                ViewModel.ReturnCode = Int32.Parse((string)args.Request.Message["CODE"]);
+            }
         }
 
         /// <summary>
