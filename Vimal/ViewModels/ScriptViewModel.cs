@@ -90,6 +90,7 @@ namespace Vimal.ViewModels
             {
                 ApplicationData.Current.LocalSettings.Values["scriptData"] = Script;
                 ApplicationData.Current.LocalSettings.Values["repetitions"] = Repetitions;
+                ApplicationData.Current.LocalSettings.Values["language"] = language.Language.ToString().ToLower();
 
                 IsBusy = true;
                 ProgressText = "Calculating time ...";

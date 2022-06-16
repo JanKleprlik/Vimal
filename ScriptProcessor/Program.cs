@@ -43,6 +43,13 @@ var scriptPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\s
 string compilerPath = localSettings.Values["compilerPath"] as string ?? "";
 string v2 = localSettings.Values["saveToFile"] as string ?? "";
 string scriptData = localSettings.Values["scriptData"] as string ?? "";
+string language = localSettings.Values["language"] as string ?? "kotlin";
+
+string compilerFileName = "";
+if (language == "kotlin")
+    compilerFileName = "kotlinc.bat";
+if (language == "swift")
+    compilerFileName = "swift";    
 
 int repetitions = localSettings.Values["repetitions"] as int? ?? 1;
 
@@ -57,7 +64,7 @@ for (int i = 0; i < repetitions; i++)
     {
         StartInfo = new ProcessStartInfo
         {
-            FileName = @"kotlinc.bat",
+            FileName = compilerFileName,
             Arguments = @"-script " + scriptPath,
             WorkingDirectory = compilerPath,
             UseShellExecute = false,
