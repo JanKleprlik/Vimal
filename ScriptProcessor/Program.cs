@@ -41,59 +41,73 @@ var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 var scriptPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\script.kts";
 
 string compilerPath = localSettings.Values["compilerPath"] as string ?? "";
-string v2 = localSettings.Values["scriptPath"] as string ?? "";
+string v2 = localSettings.Values["saveToFile"] as string ?? "";
 string scriptData = localSettings.Values["scriptData"] as string ?? "";
+
+int repetitions = localSettings.Values["repetitions"] as int? ?? 1;
 
 //write the script into a file
 await File.WriteAllTextAsync(scriptPath, scriptData);
 
+int exitCode = 0;
 
-Process proc = new Process
+for (int i = 0; i < repetitions; i++)
 {
-    StartInfo = new ProcessStartInfo
+    Process proc = new Process
     {
-        FileName = @"kotlinc.bat",
-        Arguments = @"-script " + scriptPath,
-        WorkingDirectory = compilerPath,
-        UseShellExecute = false,
-        RedirectStandardOutput = true,
-        RedirectStandardError = true,
-        CreateNoWindow = true,
+        StartInfo = new ProcessStartInfo
+        {
+            FileName = @"kotlinc.bat",
+            Arguments = @"-script " + scriptPath,
+            WorkingDirectory = compilerPath,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+
+        }
+    };
+    
+    proc.Start();
+    
+    while (!proc.StandardOutput.EndOfStream)
+    {
+        string line = proc.StandardOutput.ReadLine();
+        ValueSet request = new ValueSet();
+        request.Add("LINE", line);
+
+        connection.SendMessageAsync(request);
 
     }
-};
-Console.WriteLine("Starting process...");
-proc.Start();
-Console.WriteLine("Process is running ...");
-while (!proc.StandardOutput.EndOfStream)
-{
-    string line = proc.StandardOutput.ReadLine();
-    ValueSet request = new ValueSet();
-    request.Add("LINE", line);
-    
-    connection.SendMessageAsync(request);
+    proc.WaitForExit();
 
-    // Do something with line
-    Console.WriteLine(line);
-}
-proc.WaitForExit();
+    if (proc.ExitCode != 0)
+    {
+        //Write error to output
+        string line = proc.StandardError.ReadLine();
+        ValueSet request = new ValueSet();
+        request.Add("LINE", line);
 
+        connection.SendMessageAsync(request);
+        exitCode = proc.ExitCode;
+        break;
+    }
+    exitCode = proc.ExitCode;
 
-Console.WriteLine("Process finished with exit code: " + proc.ExitCode);
-if (proc.ExitCode != 0)
-{
-    //Write error to output
-    string line = proc.StandardError.ReadLine();
-    ValueSet request = new ValueSet();
-    request.Add("LINE", line);
+    // Sleep to make sure the output is flushed
+    Thread.Sleep(50);
+    ValueSet requestRepetition = new ValueSet();
+    requestRepetition.Add("REP", (1+i).ToString());
 
-    connection.SendMessageAsync(request);
+    connection.SendMessageAsync(requestRepetition);
+    Thread.Sleep(50);
+
 }
 
 //Add thread sleep so all messages go through before the process kills itself
 Thread.Sleep(50);
 ValueSet requestCode = new ValueSet();
-requestCode.Add("CODE", proc.ExitCode.ToString());
+requestCode.Add("CODE", exitCode.ToString());
 
 connection.SendMessageAsync(requestCode);
 Thread.Sleep(50);

@@ -71,15 +71,40 @@ namespace Vimal.Views
                     
                 }).AsTask();
             }
+            //Loop has finished
+            if (args.Request.Message.ContainsKey("REP"))
+            {
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    Debug.WriteLine(args.Request.Message["REP"] as string);
+                    int currentRep = Int32.Parse(args.Request.Message["REP"] as string);
+
+                    DateTime currentTime = DateTime.Now;
+                    TimeSpan remainingTime = DateTime.Now - ViewModel.ScriptStartTime;
+                    remainingTime *= (ViewModel.Repetitions - currentRep);
+                    ViewModel.ProgressText = $"Left: {remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
+                    ViewModel.ScriptStartTime = currentTime;
+
+
+                }).AsTask();
+            }
+            //Script has finished
             if (args.Request.Message.ContainsKey("CODE"))
             {
-                Debug.WriteLine((string)args.Request.Message["CODE"]);
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
                     ViewModel.ReturnCode = "Return code: " + (string)args.Request.Message["CODE"];
                     ViewModel.IsBusy = false;
-                    
+                    if ((string)args.Request.Message["CODE"] == "0")
+                    {
+                        ViewModel.ProgressText = "Done";
+                    }
+                    else
+                    {
+                        ViewModel.ProgressText = "Error";
+                    }
                 }).AsTask();
             }
         }

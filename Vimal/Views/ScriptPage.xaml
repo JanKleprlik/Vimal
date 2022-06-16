@@ -25,6 +25,11 @@
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="Margin" Value="0,0,8,0" />
                 </Style>
+                <Style TargetType="winui:NumberBox">
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Margin" Value="0,0,8,0" />
+                </Style>
             </RelativePanel.Resources>
             <Button
                 x:Name="runScriptButton"
@@ -70,8 +75,34 @@
                 </Button.Content>
             </Button>
             <TextBlock
-                x:Name="returnCodeBlock"
+                x:Name="repetitionsTextBox"
                 RelativePanel.RightOf="saveFileButton"
+                Text="Repetitions: "
+                Padding="10,5,0,0"
+                />
+            <winui:NumberBox
+                x:Name="repetitionBox"
+                RelativePanel.RightOf="repetitionsTextBox"
+                AutomationProperties.Name="Number of repetitions"
+                ToolTipService.ToolTip="Number of repetitions"
+                Value="{x:Bind ViewModel.Repetitions, Mode=TwoWay}"
+                Margin="8,3,0,0"
+                CornerRadius="15"
+                Minimum="1"
+                IsEnabled="{x:Bind ViewModel.IsBusy, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"
+                />
+
+            <TextBlock
+                x:Name="estTimeBlock"
+                RelativePanel.RightOf="repetitionBox"
+                Text="{x:Bind ViewModel.ProgressText, Mode=OneWay}"
+                Padding="10,5,0,0"
+                />
+
+
+            <TextBlock
+                x:Name="returnCodeBlock"
+                RelativePanel.RightOf="estTimeBlock"
                 Text="{x:Bind ViewModel.ReturnCode, Mode=OneWay}"
                 Padding="10,5,0,0"
                 />
@@ -159,8 +190,6 @@
                     TextTrimming="None"
                 />
         </ScrollViewer>
-
-
 
         <controls:GridSplitter
             Grid.Row="1"

@@ -23,12 +23,15 @@ namespace Vimal.ViewModels
     {
         private TextBlock outputTextBlock;
         private TextBlock scriptTextBlock;
+        public  DateTime ScriptStartTime;
+        public int CurrentRepetition;
 
         public ScriptViewModel(TextBlock outputTextBlock, TextBlock scriptTextBlock)
         {
             this.scriptTextBlock = scriptTextBlock;
             this.outputTextBlock = outputTextBlock;
             IsBusy = false;
+            Repetitions = 1;
         }
         
         #region properties
@@ -61,6 +64,20 @@ namespace Vimal.ViewModels
             set => SetProperty(ref _isBusy, value);
         }
 
+        private int _repetitions;
+        public int Repetitions
+        {
+            get => _repetitions;
+            set => SetProperty(ref _repetitions, value);
+        }
+
+        private string _progressText;
+        public string ProgressText
+        {
+            get => _progressText;
+            set => SetProperty(ref _progressText, value);
+        }
+
         #endregion
 
         private RelayCommand _runScriptCommand;
@@ -69,15 +86,18 @@ namespace Vimal.ViewModels
 
         private async void RunScript()
         {
-
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0))
             {
-                // Save args to AppData
                 ApplicationData.Current.LocalSettings.Values["scriptData"] = Script;
+                ApplicationData.Current.LocalSettings.Values["repetitions"] = Repetitions;
 
                 IsBusy = true;
+                ProgressText = "Calculating time ...";
+                ScriptStartTime = DateTime.Now;
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");
+
             }
+
         }
 
         public void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -91,9 +111,5 @@ namespace Vimal.ViewModels
 
             
         }
-
-
-
-
     }
 }
