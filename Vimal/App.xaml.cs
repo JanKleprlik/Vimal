@@ -38,6 +38,9 @@ namespace Vimal
                 await ActivationService.ActivateAsync(args);
             }
 
+            //Set Theme
+            await ThemeSelectorService.SetThemeAsync(ElementTheme.Dark);
+
             //Set top right corner buttons visuals
             var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
 

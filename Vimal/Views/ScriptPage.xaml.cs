@@ -190,7 +190,7 @@ namespace Vimal.Views
 
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            await FirstRunDisplayService.ShowIfAppropriateAsync();
+            await DisplayService.ShowSettingsAsync();
         }
 
         private void SynchronizedScrollerOnViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
