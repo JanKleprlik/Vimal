@@ -14,7 +14,7 @@
 
                 <ResourceDictionary Source="/Styles/Templates/_Templates.xaml"/>
                 <ResourceDictionary Source="/Styles/Controls/_Controls.xaml"/>
-                <ResourceDictionary Source="/Helpers/_Converters.xaml"/>
+                <ResourceDictionary Source="/Helpers/Converters/_Converters.xaml"/>
 
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
                 <ResourceDictionary Source="/Styles/Page.xaml"/>
