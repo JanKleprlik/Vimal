@@ -81,7 +81,16 @@ Console.WriteLine("Process finished with exit code: " + proc.ExitCode);
 if (proc.ExitCode != 0)
 {
     //Write error to output
-    Console.WriteLine(proc.StandardError.ReadToEnd());
+    string line = proc.StandardError.ReadLine();
+    ValueSet request = new ValueSet();
+    request.Add("LINE", line);
+
+    connection.SendMessageAsync(request);
 }
+
+ValueSet finalRequest = new ValueSet();
+finalRequest.Add("CODE", proc.ExitCode.ToString());
+
+connection.SendMessageAsync(finalRequest);
 
 connection.RequestReceived -= Connection_RequestReceived;
