@@ -77,6 +77,8 @@ while (!proc.StandardOutput.EndOfStream)
     Console.WriteLine(line);
 }
 proc.WaitForExit();
+
+
 Console.WriteLine("Process finished with exit code: " + proc.ExitCode);
 if (proc.ExitCode != 0)
 {
@@ -88,9 +90,10 @@ if (proc.ExitCode != 0)
     connection.SendMessageAsync(request);
 }
 
-ValueSet finalRequest = new ValueSet();
-finalRequest.Add("CODE", proc.ExitCode.ToString());
+//Add thread sleep so all messages go through before the process kills itself
+Thread.Sleep(50);
+ValueSet requestCode = new ValueSet();
+requestCode.Add("CODE", proc.ExitCode.ToString());
 
-connection.SendMessageAsync(finalRequest);
-
-connection.RequestReceived -= Connection_RequestReceived;
+connection.SendMessageAsync(requestCode);
+Thread.Sleep(50);

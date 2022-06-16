@@ -46,6 +46,7 @@
                 </Button.Content>
             </Button>
             <Button
+                x:Name="saveFileButton"
                 Click="SaveButton_Click"
                 AutomationProperties.Name="Save file"
                 ToolTipService.ToolTip="Save file"
@@ -54,6 +55,13 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74E;"/>
                 </Button.Content>
             </Button>
+            <TextBlock
+                RelativePanel.RightOf="saveFileButton"
+                Text="{x:Bind ViewModel.ReturnCode, Mode=OneWay}"
+                Padding="10,5,0,0"
+                />
+
+
             <Button
                 AutomationProperties.Name="Settings"
                 ToolTipService.ToolTip="Settings"

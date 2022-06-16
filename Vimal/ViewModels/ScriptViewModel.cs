@@ -39,8 +39,8 @@ namespace Vimal.ViewModels
             set => SetProperty(ref _script, value);
         }
 
-        private int _returnCode;
-        public int ReturnCode
+        private string _returnCode;
+        public string ReturnCode
         {
             get => _returnCode;
             set => SetProperty(ref _returnCode, value);
@@ -68,16 +68,10 @@ namespace Vimal.ViewModels
 
         private async void RunScript()
         {
-            //outputTextBlock.Inlines.Clear();
-            //outputTextBlock.Inlines.Add(new Run { Text = " <<< Starting process ... >>>", Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Colors.LightGreen) });
-            //outputTextBlock.Inlines.Add(new LineBreak());
 
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0))
             {
                 // Save args to AppData
-                //TODO: redo the paths to have them saved somewhere locally
-                //ApplicationData.Current.LocalSettings.Values["compilerPath"] = @"C:\Program Files\Kotlin\kotlinc\bin\kotlinc.bat";//ViewModel.CompilerPath;
-                //ApplicationData.Current.LocalSettings.Values["scriptPath"] = @"C:\Users\klepr\source\repos\JB\Kotlin\HelloWorld.kts";// ViewModel.ScriptPath;
                 ApplicationData.Current.LocalSettings.Values["scriptData"] = Script;
 
                 await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("KotlinParams");

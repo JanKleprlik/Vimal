@@ -73,7 +73,13 @@ namespace Vimal.Views
             }
             if (args.Request.Message.ContainsKey("CODE"))
             {
-                ViewModel.ReturnCode = Int32.Parse((string)args.Request.Message["CODE"]);
+                Debug.WriteLine((string)args.Request.Message["CODE"]);
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    ViewModel.ReturnCode = "Return code: " + (string)args.Request.Message["CODE"];
+                    
+                }).AsTask();
             }
         }
 
