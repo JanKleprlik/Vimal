@@ -16,7 +16,7 @@ namespace Vimal.Models.Languages
                 new Keyword { Word = "else", Color = Colors.MediumPurple},
                 new Keyword { Word = "if", Color = Colors.MediumPurple},
                 new Keyword { Word = "false", Color = Colors.DeepSkyBlue},
-                new Keyword { Word = "true", Color = Colors.MediumPurple},
+                new Keyword { Word = "true", Color = Colors.DeepSkyBlue},
                 new Keyword { Word = "fun", Color = Colors.Orange},
                 new Keyword { Word = "for", Color = Colors.MediumPurple},
                 new Keyword { Word = "package", Color = Colors.DeepSkyBlue},
