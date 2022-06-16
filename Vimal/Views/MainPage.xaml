@@ -19,6 +19,7 @@
         AllowDropTabs="True"
         TabItemsSource="{x:Bind ViewModel.Tabs}"
         AddTabButtonCommand="{x:Bind ViewModel.AddTabCommand}"
+        IsAddTabButtonVisible="False"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         CloseButtonOverlayMode="OnPointerOver"
