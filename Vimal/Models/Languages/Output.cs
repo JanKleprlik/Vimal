@@ -15,5 +15,7 @@ namespace Vimal.Models.Languages
                         new Keyword { Word = "error", Color = Colors.Red },
                         new Keyword { Word = "Kotlin", Color = Colors.MediumPurple },
             };
+
+        public LanguageEnum Language => LanguageEnum.Output;
     }
 }

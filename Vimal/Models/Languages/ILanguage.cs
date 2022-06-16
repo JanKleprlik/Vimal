@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Vimal.Models.Languages
 {
-    internal interface ILanguage
+    public interface ILanguage
     {
         /// <summary>
         /// IT DEPENS ON THE ORDER!
         /// </summary>
         IEnumerable<Keyword> Keywords { get; }
+
+        LanguageEnum Language { get; }
     }
 }

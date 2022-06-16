@@ -21,15 +21,15 @@ namespace Vimal.ViewModels
 {
     public class ScriptViewModel : ObservableObject
     {
-        private TextBlock outputTextBlock;
+        private ILanguage language;
         private TextBlock scriptTextBlock;
         public  DateTime ScriptStartTime;
         public int CurrentRepetition;
 
-        public ScriptViewModel(TextBlock outputTextBlock, TextBlock scriptTextBlock)
+        public ScriptViewModel(ILanguage lang, TextBlock scriptTextBlock)
         {
+            this.language = lang;
             this.scriptTextBlock = scriptTextBlock;
-            this.outputTextBlock = outputTextBlock;
             IsBusy = false;
             Repetitions = 1;
         }
@@ -106,7 +106,7 @@ namespace Vimal.ViewModels
             {
                 Script = (sender as TextBox).Text;
                 scriptTextBlock.Inlines.Clear();
-                SyntaxHighlightingService.Highlight(Script, scriptTextBlock, new Kotlin());
+                SyntaxHighlightingService.Highlight(Script, scriptTextBlock, language);
             }
 
             

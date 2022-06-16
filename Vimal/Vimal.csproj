@@ -150,7 +150,9 @@
     <Compile Include="Models\Languages\ILanguage.cs" />
     <Compile Include="Models\Languages\KeyWord.cs" />
     <Compile Include="Models\Languages\Kotlin.cs" />
+    <Compile Include="Models\Languages\LanguageEnum.cs" />
     <Compile Include="Models\Languages\Output.cs" />
+    <Compile Include="Models\Languages\Swift.cs" />
     <Compile Include="Models\TabViewItemData.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />

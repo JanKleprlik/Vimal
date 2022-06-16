@@ -38,11 +38,11 @@ namespace Vimal.Views
         private object _lastScrollingElement;
         private int _lastScrollChange = Environment.TickCount;
 
-        public ScriptPage()
+        public ScriptPage(ILanguage language)
         {
 
             this.InitializeComponent();
-            ViewModel = new ScriptViewModel(FindName("outputTextBlock") as TextBlock, FindName("scriptEditor") as TextBlock);
+            ViewModel = new ScriptViewModel(language, FindName("scriptEditor") as TextBlock);
 
             if (!wasSet)
             {

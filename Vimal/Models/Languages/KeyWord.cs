@@ -7,7 +7,7 @@ using Windows.UI;
 
 namespace Vimal.Models.Languages
 {
-    internal class Keyword
+    public class Keyword
     {
         public string Word;
         public Color Color = Colors.MediumPurple;
