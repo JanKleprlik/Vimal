@@ -38,7 +38,7 @@ Below there is pane to write your script into. Below that there is an output win
 ![MainPage](./Images/mainViewStartup.PNG)
 
 ## What has been done
-List of required features: 
+### List of required features: 
 - [x] Should have an editor pane and an output pane.
 - [x] Write the script to a file and run it using `/usr/bin/env swift foo.swift`, or `kotlinc -script foo.kts` respectively.
 - [x] Assume the script might run for a long time.
@@ -47,7 +47,7 @@ List of required features:
 - [x] Show an indication whether the script is currently running.
 - [x] Show an indication whether the exit code of the last run was non-zero.
 
-List of optional features:
+### List of optional features:
 - [x] Highlight language keywords in a color different from the rest of the code. You may assume that keywords are not valid in other contexts, e.g. as enum member names. You may restrict yourself to 10 keywords, if more could be added easily.
 - [ ] Make location descriptions of errors (e.g. “script:2:1: error: cannot find 'foo' in scope”) clickable, so users can navigate to the exact cursor positions in code.
 - [x] Add a mechanism to run the script multiple times. Show a progress bar as well as an estimate of the time remaining. The estimate should be based on the time elapsed for already finished runs of the batch. More recent runs should be weighted more than older ones.
@@ -66,15 +66,18 @@ Unfortunately I did not have enough time to implement this feature. However, the
 ### Timer
 I have decided not to add a progress bar for the script execution as it seemed very distracting and did not fit to the UI in my opinion. I have added a timer that estimates the time left before the script runs are finished.
 
-List of features I have added because I thought they should be included:
+### List of features I have added because I thought they should be included:
 - [x] Upload script from file.
 - [x] Save script into file.
 - [x] Browser-like keyboard control of tabs (`CTRL + W`, `CTRL + T`, `CTRL + 1-9`)
 
-List of features that are implemented but are disabled because I was not able to throughtfully test them:
+### List of features that are implemented but are disabled because I was not able to throughtfully test them:
 - [ ] Light and Dark mode support. 
 - [ ] Multiple language support.
 - [ ] Adding new tabs for different scripts.
-> Last feature can actually be accessed using keyboard shortcuts.
+> Last feature can actually be accessed using keyboard shortcuts. But tabs will not contain editable pages.
 ## What could be improved
-Some of the UI elements could be defitely improved. For example highlighting text in the script pane is not ideal. 
+- In short some of the UI elements could be defitely improved. For example highlighting with mouse text in the script pane is not ideal. 
+- I did not have enough time to test the application fully. I am aware of some bugs that may result in the application not working as expected.
+- The support for *Swift* is not fully implemented yet. Only the syntax highlighting is working but the scripts can not be executed (this may result in the application not working as expected).
+- Create my own branding and not use *Kotlin* logo would be nice.
