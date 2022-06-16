@@ -9,6 +9,7 @@ namespace Vimal.Models.Languages
             new Keyword[]
             {
                 new Keyword { Word = "as?", Color = Colors.MediumPurple},
+                new Keyword { Word = "as", Color = Colors.MediumPurple},
                 new Keyword { Word = "break", Color = Colors.MediumPurple},
                 new Keyword { Word = "class", Color = Colors.DeepSkyBlue},
                 new Keyword { Word = "continue", Color = Colors.MediumPurple},
