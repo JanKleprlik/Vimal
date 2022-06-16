@@ -14,7 +14,12 @@ namespace Vimal.Services
 {
     internal static class SyntaxHighlightingService
     {
-
+        /// <summary>
+        /// Highlights the specified code by rules of given language
+        /// </summary>
+        /// <param name="text">Code to highlight</param>
+        /// <param name="TB">TextBox to write highlighted code to</param>
+        /// <param name="language">Language specifying the rules of syntax</param>
         public static void Highlight(string text, TextBlock TB, ILanguage language)
         {
             var indexes = GetKeywordIndexes(text, language.Keywords);
@@ -41,7 +46,10 @@ namespace Vimal.Services
 
         }
 
-        //Find all starting idnexes of keywords in given string
+        /// <summary>
+        /// Find all starting idnexes of keywords in given string
+        /// </summary>
+        /// <returns></returns>
         private static List<CodePart> GetKeywordIndexes(string line, IEnumerable<Keyword> keywords)
         {
             List<CodePart> indexes = new List<CodePart>();
@@ -50,16 +58,10 @@ namespace Vimal.Services
                 int index = line.IndexOf(keyword.Word);
                 while (index != -1)
                 {
-                        //can neighbout letters
+                    //can neighbout letters
                     if (keyword.CanNeighboutLetters ||
-                        //check front
-                        ((index == 0 || //is at the start
-                        ('A' > line[index - 1] || 'z' < line[index - 1])) //is not part of a word
-                        &&
-                        //check back
-                        (index + keyword.Word.Length == line.Length || //is at the end
-                        ('A' > line[index + keyword.Word.Length] || 'z' < line[index + keyword.Word.Length])) //is not par of a word
-                       ))
+                        //check previous and following characters
+                        (IsPreviousCharOk(line, keyword, index) && IsFollowingCharOk(line, keyword, index)))
                     {
                         //KeyWord itself
                         indexes.Add(new CodePart
@@ -79,6 +81,17 @@ namespace Vimal.Services
             return indexes;
         }
 
+        private static bool IsPreviousCharOk(string line, Keyword keyword, int index)
+        {
+            return ((index == 0 || //is at the start
+                    ('A' > line[index - 1] || 'z' < line[index - 1]))); //is not part of a word
+        }
+        private static bool IsFollowingCharOk(string line, Keyword keyword, int index)
+        {
+            return (index + keyword.Word.Length == line.Length || //is at the end
+                        ('A' > line[index + keyword.Word.Length] ||
+                        'z' < line[index + keyword.Word.Length])); //is not par of a word);
+        }        
     }
 
     internal class CodePart : IEqualityComparer<CodePart>

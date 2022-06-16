@@ -13,8 +13,6 @@ using Windows.UI.Xaml.Input;
 
 namespace Vimal.Services
 {
-    // For more information on understanding and extending activation flow see
-    // https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/activation.md
     internal class ActivationService
     {
         private readonly App _app;
@@ -116,7 +114,7 @@ namespace Vimal.Services
         private async Task StartupAsync()
         {
             await ThemeSelectorService.SetRequestedThemeAsync();
-            await FirstRunDisplayService.ShowIfAppropriateAsync();
+            await DisplayService.ShowSettingsAsync();
         }
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
