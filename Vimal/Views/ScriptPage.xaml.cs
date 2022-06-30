@@ -154,7 +154,7 @@ namespace Vimal.Views
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
 
             // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("Scripts", new List<string>() { ".swift", ".kts" });
+            savePicker.FileTypeChoices.Add("Scripts", new List<string>() { ".kts", ".swift" });
 
             // Default file name if the user does not type one in or select a file to replace
             savePicker.SuggestedFileName = "script";

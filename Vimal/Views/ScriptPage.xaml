@@ -140,6 +140,7 @@
                     RelativePanel.AlignRightWithPanel="True"
                     RelativePanel.AlignBottomWithPanel="True"
                     TextWrapping="Wrap"
+                    LineHeight="16"
                     />
                 
             </ScrollViewer>
